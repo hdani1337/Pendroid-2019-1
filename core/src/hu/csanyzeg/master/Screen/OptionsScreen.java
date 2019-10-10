@@ -5,24 +5,24 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import hu.csanyzeg.master.ParentClasses.Game.MyGame;
 import hu.csanyzeg.master.ParentClasses.Scene2D.MyScreen;
-import hu.csanyzeg.master.Stage.MenuStage;
+import hu.csanyzeg.master.Stage.OptionsStage;
 
 import static hu.csanyzeg.master.MyGdxGame.keparanySzelesvaszonra;
 
-public class MenuScreen extends MyScreen {
-    MenuStage menuStage;
+public class OptionsScreen extends MyScreen {
+    OptionsStage optionsStage;
 
-    public MenuScreen(MyGame game) {
+    public OptionsScreen(MyGame game) {
         super(game);
-        menuStage = new MenuStage(new FitViewport(keparanySzelesvaszonra(720),720),spriteBatch,game);
-        Gdx.input.setInputProcessor(menuStage);
+        optionsStage = new OptionsStage(new FitViewport(keparanySzelesvaszonra(720),720),spriteBatch,game);
+        Gdx.input.setInputProcessor(optionsStage);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        menuStage.draw();
-        menuStage.act(delta);
+        optionsStage.draw();
+        optionsStage.act(delta);
     }
 
     @Override

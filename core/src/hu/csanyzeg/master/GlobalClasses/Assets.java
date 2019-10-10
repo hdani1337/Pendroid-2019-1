@@ -36,6 +36,7 @@ public class Assets {
     public static final AssetDescriptor<Texture> BLUE_TEXTURE = new AssetDescriptor<Texture>("blue.png", Texture.class);
     public static final AssetDescriptor<Texture> GREEN_TEXTURE = new AssetDescriptor<Texture>("green.png", Texture.class);
     public static final AssetDescriptor<Texture> YELLOW_TEXTURE = new AssetDescriptor<Texture>("yellow.png", Texture.class);
+    public static final AssetDescriptor<Texture> WALLPAPER_TEXTURE = new AssetDescriptor<Texture>("hatter.png", Texture.class);
 
     public static void prepare() {
 		manager = new AssetManager();
@@ -50,6 +51,7 @@ public class Assets {
 
 		manager.load(TEXTBOX_TEXTURE);
 		manager.load(CURSOR_TEXTURE);
+		manager.load(WALLPAPER_TEXTURE);
 
 		manager.load(ALEGREYAREGULAR_FONT);
 
