@@ -69,8 +69,8 @@ public class GameStage extends MyStage {
         viz.setX(vizszint.getX());
         viz.setY(vizszint.getY());
 
-        currentKimeno.setPosition(0,0);
-        currentVizszint.setPosition(0,currentKimeno.getHeight()-25);
+        currentKimeno.setPosition(30,0);
+        currentVizszint.setPosition(30,currentKimeno.getHeight()-25);
     }
 
     void addActors()
@@ -129,7 +129,7 @@ public class GameStage extends MyStage {
                 System.out.println(matek.getVizmennyiseg()+890);
                 WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                 vizcsepp2.addToWorld();
-                vizcsepp2.setPosition(500, 750);
+                vizcsepp2.setPosition((float)((Math.random()*420)+tartaly.getX()+135), 750);
                 addActor(vizcsepp2);
                 vizcsepp2.setZIndex(5);
                 pElapsedTime = elapsedTime;
