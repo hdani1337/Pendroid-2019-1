@@ -30,6 +30,9 @@ public class WorldActorGroup extends Group implements WorldInterface, InitableIn
     public final String bodyID;
     private FixtureDef fixtureDef;
 
+    public FixtureDef getFixtureDef() {
+        return fixtureDef;
+    }
 
     private boolean visibilityControl = true;
 
