@@ -39,6 +39,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> WALLPAPER_TEXTURE = new AssetDescriptor<Texture>("hatter.png", Texture.class);
     public static final AssetDescriptor<Texture> TARTALY_TEXTURE = new AssetDescriptor<Texture>("tartaly.png", Texture.class);
     public static final AssetDescriptor<Texture> VIZ_TEXTURE = new AssetDescriptor<Texture>("water.png", Texture.class);
+    public static final AssetDescriptor<Texture> VIZ = new AssetDescriptor<Texture>("waterBlue.png", Texture.class);
+    public static final AssetDescriptor<Texture> VIZSZINT_TEXTURE = new AssetDescriptor<Texture>("waterLevel.png", Texture.class);
 
     public static void prepare() {
 		manager = new AssetManager();
@@ -62,6 +64,8 @@ public class Assets {
         manager.load(YELLOW_TEXTURE);
         manager.load(TARTALY_TEXTURE);
         manager.load(VIZ_TEXTURE);
+        manager.load(VIZ);
+        manager.load(VIZSZINT_TEXTURE);
 	}
 
     public static void afterLoaded() {

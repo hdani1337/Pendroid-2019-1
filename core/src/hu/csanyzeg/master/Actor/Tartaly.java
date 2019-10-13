@@ -9,6 +9,9 @@ import hu.csanyzeg.master.ParentClasses.Box2dWorld.WorldBodyEditorLoader;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 
 public class Tartaly extends WorldActorGroup {
+    private static float magassagiArany = 0.665f;//Ha az egész tartály magasságát megszorozzuk ezzel az aránnyal, visszakapjuk a 100%os vízszint magasságát pixelben
+    private static float szelessegiArany = 0.571f;//Ha az egész tartály szélességét megszorozzuk ezzel az aránnyal, visszakapjuk a vízszint szélességét pixelben
+
     public Tartaly(World world, WorldBodyEditorLoader loader) {
         super(world, loader, "Tartaly", BodyDef.BodyType.DynamicBody, 0, 0, 150f, false);
 
@@ -28,5 +31,15 @@ public class Tartaly extends WorldActorGroup {
     @Override
     public float getHeight() {
         return new OneSpriteStaticActor(Assets.manager.get(Assets.TARTALY_TEXTURE)).getHeight();
+    }
+
+    public static float vizszintMagassag(float magassag, float szazalek)
+    {
+        return (szazalek<1) ? (magassag*magassagiArany)*szazalek : (magassag*magassagiArany) * (szazalek/100);
+    }
+
+    public static float vizszintSzelesseg(float szelesseg)
+    {
+        return szelesseg*szelessegiArany;
     }
 }

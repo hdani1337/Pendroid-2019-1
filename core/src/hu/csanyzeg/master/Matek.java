@@ -33,6 +33,11 @@ public class Matek {
         return vizmennyiseg;
     }
 
+    public float getKimeno()
+    {
+        return kimeno;
+    }
+
     public void step(float deltaTime)
     {
         time+=deltaTime;
