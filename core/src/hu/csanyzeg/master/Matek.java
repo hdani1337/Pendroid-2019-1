@@ -5,20 +5,24 @@ import java.util.ArrayList;
 
 public class Matek {
 
-    float beviz;
+    float beviz =  0;
     float time = 0;
     float kimeno = 1;
     float vizmennyiseg = 10;//m3 900 az optimális, a teljes vizmennyiség megkapásához hozzáadunk 890m3-t
+    float difi = 0;
     ArrayList<cso> pipe = new ArrayList<cso>();
+    ArrayList<Float> szintek = new ArrayList<Float>();
 
     public Matek(float vizbe, float[] csok) {
         beviz = vizbe;
-        int co = 0;
+        int counter = 0;
         for (float a : csok){
-            co++; //kell hogy tudjuk melyik cső lesz, lusta voltam for-ba
-            cso asd = new cso(a,co);
+            counter++; //kell hogy tudjuk melyik cső lesz, lusta voltam for-ba
+            cso asd = new cso(a,counter);
             pipe.add(asd);
         }
+        difi = 20 / csok.length;
+
     }
 
     public ArrayList<cso> getPipe() {
@@ -38,6 +42,14 @@ public class Matek {
         return kimeno;
     }
 
+    public void szintfeltoltes(){
+        float sum = 0;
+        while (sum <= 20){
+            sum += difi;
+            szintek.add(sum);
+        }
+    }
+
     public void step(float deltaTime)
     {
         time+=deltaTime;
@@ -50,11 +62,33 @@ public class Matek {
 
     }
 
+    public float getBeviz() {
+        return beviz;
+    }
+
+    public float getDifi() {
+        return difi;
+    }
+
+    public float getLegkisebb(){
+        float min = 32768;
+        for (int i = 0; i < getPipe().size(); i++){
+            if (getPipe().get(i).getKi() < min ) min = getPipe().get(i).getKi();
+        }
+        return min;
+    }
+
+
     public void setKimeno() {
         float sum =0; //csak egy void ami összegzi a nyílt csöveken átmenő vízmennyiséget
-        for (int i = 0; i < getPipe().size(); i++)
-        {
-            if(getcso(i).isOpen()) sum+=getcso(i).getKi();
+        for (int i = 0; i < pipe.size(); i++){
+            if (getVizmennyiseg() > szintek.get(i)) getcso(i).setOpen(true);
+            else getcso(i).setOpen(false);
+        }
+
+
+        for (int i = 0; i < pipe.size(); i++) {
+            if (getcso(i).isOpen()) sum += getcso(i).getKi();
         }
         this.kimeno = sum;
     }
@@ -62,8 +96,9 @@ public class Matek {
     public static void main(String[] args) {
         float[] csovek = {1,2,4,8};
         Matek m = new  Matek(2, csovek);
+        m.szintfeltoltes();
         System.out.println(m.getVizmennyiseg());
-        for(int i = 0; i< 20; i++){
+        for(int i = 0; i< 200; i++){
             m.step(0.1f);
             System.out.println(m.getVizmennyiseg());
         }
