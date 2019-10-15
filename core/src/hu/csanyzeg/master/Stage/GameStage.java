@@ -59,11 +59,12 @@ public class GameStage extends MyStage {
     {
         world = new World(new Vector2(0,-900), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(10,new float[]{5,8});
+        matek = new Matek(0,new float[]{50,60,70,80,90,100});
+        matek.setBemeno((int)matek.getAtlag());
         vizszint = new Vizszint();
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0 m" , Styles.getLabelStyle());
         currentKimeno = new MyLabel("Kimenő vízmennyiség: 0 m3", Styles.getLabelStyle());
-        currentBemeno = new MyLabel("Bemenő vízmennyiség:" + matek.getBemeno() + " m3", Styles.getLabelStyle());
+        currentBemeno = new MyLabel("Bemenő vízmennyiség:" + (int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
         plus = new MyButton("+",Styles.getTextButtonStyle());
         minus = new MyButton("-",Styles.getTextButtonStyle());
         error = new MyLabel("Hiba: Több a befolyó vízmennyíség, mint amennyi kifolyhat!", Styles.getLabelStyle());
@@ -102,9 +103,7 @@ public class GameStage extends MyStage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(matek.getBemeno() < matek.getOsszesKimeno()-1) matek.setBemeno(matek.getBemeno()+1);
-                currentBemeno.setText("Bemenő vízmennyiség:" + matek.getBemeno() + " m3");
-                System.out.println(matek.getKimeno());
-                System.out.println(matek.getBemeno());
+                currentBemeno.setText("Bemenő vízmennyiség:" + (int)matek.getBemeno() + " m3/h");
             }
         });
 
@@ -113,8 +112,7 @@ public class GameStage extends MyStage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(matek.getBemeno() > 0) matek.setBemeno(matek.getBemeno()-1);
-                currentBemeno.setText("Bemenő vízmennyiség:" + matek.getBemeno() + " m3");
-                System.out.println(matek.getBemeno() < matek.getLegkisebb());
+                currentBemeno.setText("Bemenő vízmennyiség:" + (int)matek.getBemeno() + " m3/h");
             }
         });
     }
@@ -170,7 +168,7 @@ public class GameStage extends MyStage {
 
     void vizCseppek()
     {
-        if (elapsedTime > pElapsedTime + 0.0001f) {
+        if (elapsedTime > pElapsedTime + (0.01/matek.getBemeno())) {
             if (matek.getVizmennyiseg() + 890 < 1000 && matek.getVizmennyiseg()+890 > 890 && matek.getBemeno() !=0) {
                 //System.out.println(vizcseppCount);
                 //System.out.println(matek.getVizmennyiseg()+890);
@@ -182,18 +180,18 @@ public class GameStage extends MyStage {
                 pElapsedTime = elapsedTime;
                 vizcseppCount = 0;
             }
-            Array<Actor> actors = new Array<Actor>();
-            for (Actor actor : getActors()) {
-                if (actor instanceof Vizcsepp) {
-                    vizcseppCount += 1;
-                    if (!isActorShowing(actor, 1.2f)) {
-                        actors.add(actor);
-                    }
-                    if(actor.getY()<viz.getY()+viz.getHeight()-5)//Ne egyből tűnjön el, legyen egy kis átmenet
-                    {
-                        vizcseppCount--;
-                        actor.remove();
-                    }
+        }
+        Array<Actor> actors = new Array<Actor>();
+        for (Actor actor : getActors()) {
+            if (actor instanceof Vizcsepp) {
+                vizcseppCount += 1;
+                if (!isActorShowing(actor, 1.2f)) {
+                    actors.add(actor);
+                }
+                if(actor.getY()<viz.getY()+viz.getHeight()-5)//Ne egyből tűnjön el, legyen egy kis átmenet
+                {
+                    vizcseppCount--;
+                    actor.remove();
                 }
             }
         }
@@ -204,7 +202,7 @@ public class GameStage extends MyStage {
         if (matek.getVizmennyiseg() + 890 <= 890.1f) {
             for (int i = 0; i < matek.getPipe().size(); i++)
                 matek.getcso(i).setOpen(false);
-        } else if (matek.getVizmennyiseg() + 890 > 905) {
+        } else if (matek.getVizmennyiseg() + 890 > 909.9f) {
             for (int i = 0; i < matek.getPipe().size(); i++)
                 matek.getcso(i).setOpen(true);
         }

@@ -55,10 +55,25 @@ public class Matek {
 
     public float getLegkisebb()
     {
-        float min = 32768;
+        float max = getLegnagyobb();
         for (int i = 0; i < getPipe().size(); i++)
         {
-            if(getPipe().get(i).getKi() < min) min = getPipe().get(i).getKi();
+            if(getPipe().get(i).getKi() < max) max = getPipe().get(i).getKi();
+        }
+        return max;
+    }
+
+    public float getAtlag()
+    {
+        return getOsszesKimeno()/pipe.size();
+    }
+
+    public float getLegnagyobb()
+    {
+        float min = 0;
+        for (int i = 0; i < getPipe().size(); i++)
+        {
+            if(getPipe().get(i).getKi() > min) min = getPipe().get(i).getKi();
         }
         return min;
     }
