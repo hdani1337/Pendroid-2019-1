@@ -21,13 +21,8 @@ public class MyGdxGame extends MyGame {
 
 	public static int keparanySzelesvaszonra(int magassag)
 	{
-		//A telefonok képernyőjének magassága általában 9-es arányú, ez visszaadja a telefon szélességi arányát, ezzel könnyítve a méretezést
-		float keparany = Gdx.graphics.getWidth() / (Gdx.graphics.getHeight()/1.0f);
-		int egyArany = magassag/9;//egy arányra eső szélesség 720-as magasságnál ((720/9)*x)
-		int x = 1;//szélességi arány
-		while (keparany > (x/9.0f)) x++;
-
-		return x * egyArany;
+		int egyArany = magassag/9;//egy arányra eső szélesség 1080-as magasságnál (1080/9)
+		return Gdx.graphics.getWidth() / egyArany * 120;
 	}
 
 	@Override

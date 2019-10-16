@@ -57,15 +57,15 @@ public class GameStage extends MyStage {
 
     void assignment(Viewport viewport)
     {
-        world = new World(new Vector2(0,-900), false);
+        world = new World(new Vector2(0,-1800), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(0,new float[]{8,20});
+        matek = new Matek(0,new float[]{8,12,16,20,24});
         matek.setBemeno((int)matek.getAtlag());
         matek.szintfeltoltes();
         vizszint = new Vizszint();
-        currentVizszint = new MyLabel("Jelenlegi vízszint: 0 m" , Styles.getLabelStyle());
-        currentKimeno = new MyLabel("Kimenő vízmennyiség: 0 m3", Styles.getLabelStyle());
-        currentBemeno = new MyLabel("Bemenő vízmennyiség:" + (int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
+        currentVizszint = new MyLabel("Jelenlegi vízszint: 0.000000 m" , Styles.getLabelStyle());
+        currentKimeno = new MyLabel("Kimenő vízmennyiség: 0.00 m3/h", Styles.getLabelStyle());
+        currentBemeno = new MyLabel("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
         plus = new MyButton("+",Styles.getTextButtonStyle());
         minus = new MyButton("-",Styles.getTextButtonStyle());
         error = new MyLabel("Hiba: Több a befolyó vízmennyíség, mint amennyi kifolyhat!", Styles.getLabelStyle());
@@ -86,15 +86,18 @@ public class GameStage extends MyStage {
         viz.setX(vizszint.getX());
         viz.setY(vizszint.getY());
 
+        plus.setHeight(150);
+        minus.setHeight(150);
         plus.setWidth(plus.getHeight());
         plus.setY(viewport.getWorldHeight()-plus.getHeight());
         minus.setWidth(plus.getWidth());
-        minus.setY(plus.getY()-minus.getHeight());
-        currentBemeno.setX(plus.getWidth()+10);
-        currentBemeno.setY(minus.getY()+(plus.getWidth()));
+        minus.setY(plus.getY());
+        minus.setX(viewport.getWorldWidth()-minus.getWidth());
+        currentBemeno.setX(viewport.getWorldWidth()/2-currentBemeno.getWidth()/2);
+        currentBemeno.setY(minus.getY()-60);
 
-        currentKimeno.setPosition(30,0);
-        currentVizszint.setPosition(30,currentKimeno.getHeight()-25);
+        currentKimeno.setPosition(viewport.getWorldWidth()/2-currentKimeno.getWidth()/2,35);
+        currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2,currentKimeno.getHeight()+15);
     }
 
     void addListeners()
@@ -175,7 +178,7 @@ public class GameStage extends MyStage {
                 //System.out.println(matek.getVizmennyiseg()+890);
                 WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                 vizcsepp2.addToWorld();
-                vizcsepp2.setPosition((float)((Math.random()*420)+tartaly.getX()+135), 750);
+                vizcsepp2.setPosition((float)(Math.random() * 450 + 150), getViewport().getWorldHeight()+50);
                 addActor(vizcsepp2);
                 vizcsepp2.setZIndex(5);
                 pElapsedTime = elapsedTime;
@@ -198,17 +201,6 @@ public class GameStage extends MyStage {
         }
     }
 
-    void csapok()
-    {
-        if (matek.getVizmennyiseg() + 890 <= 890.1f) {
-            for (int i = 0; i < matek.getPipe().size(); i++)
-                matek.getcso(i).setOpen(false);
-        } else if (matek.getVizmennyiseg() + 890 > 909.9f) {
-            for (int i = 0; i < matek.getPipe().size(); i++)
-                matek.getcso(i).setOpen(true);
-        }
-    }
-
     void update()
     {
         vizszint.update(tartaly.getHeight(),(matek.getVizmennyiseg()+890)/10,tartaly.getY()+35);
@@ -224,9 +216,9 @@ public class GameStage extends MyStage {
         if(matek.getBemeno() < matek.getOsszesKimeno()) {
             matek.step(delta);
             update();
-            csapok();
             vizCseppek();
         }
+        System.out.println(getViewport().getWorldWidth() + " " + getViewport().getWorldHeight());
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Vizcsepp extends WorldActorGroup {
     public Vizcsepp(World world) {
         super(world, ShapeType.Circle, BodyDef.BodyType.DynamicBody, new FixtureDef());
         getFixtureDef().shape = new CircleShape();
-        getFixtureDef().density = 3.0f; // A vízcsepp tömege
+        getFixtureDef().density = 10.0f; // A vízcsepp tömege
         getFixtureDef().friction = 0.0f; // Súrlódás
         getFixtureDef().restitution = 0.5f; // Pattanás
 

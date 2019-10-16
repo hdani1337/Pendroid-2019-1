@@ -94,8 +94,8 @@ public class Matek {
     {
         time+=deltaTime;
         vizmennyiseg += (deltaTime * beviz); //hozzáadjuk az eltelt idő alatt befolyt vizet
-        if (beviz > getLegkisebb()) getcso(0).setOpen(true); //ha több víz folyik be, mint amennyit a legkisebb csap elbír, akkor nyíljon ki az első, mert ha kevesebb víz folyik be mint a legkisebb csap, akkor lemegy 8.9 alá
-        if (getVizmennyiseg()> 11) getcso(1).setOpen(true);
+        /*if (beviz > getLegkisebb()) getcso(0).setOpen(true); //ha több víz folyik be, mint amennyit a legkisebb csap elbír, akkor nyíljon ki az első, mert ha kevesebb víz folyik be mint a legkisebb csap, akkor lemegy 8.9 alá
+        if (getVizmennyiseg()> getSzint(1)) getcso(1).setOpen(true);*/
         setKimeno();
         vizmennyiseg += -1*(deltaTime*kimeno); // kivonjuk az eltelt idő alatt kifolyt vizet
         // Fontos hogy a vízmennyiség nem mehet 890 m3 alá, de 910m3 fölé sem! tehát van egy kellemes 20m3-nyi területünk floatban
