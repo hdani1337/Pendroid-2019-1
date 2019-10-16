@@ -52,6 +52,14 @@ public class Matek {
         return kimeno;
     }
 
+    public ArrayList<Float> getSzintek() {
+        return szintek;
+    }
+
+    public float getSzint(int index) {
+        return getSzintek().get(index);
+    }
+
     public float getBemeno()
     {
         return beviz; //csak egy void ami visszaadja a nyílt csöveken átmenő vízmennyiséget
@@ -97,7 +105,7 @@ public class Matek {
     public void setKimeno() {
         float sum =0; //csak egy void ami összegzi a nyílt csöveken átmenő vízmennyiséget
         for (int i = 0; i < pipe.size(); i++){
-            if (getVizmennyiseg() > szintek.get(i)) getcso(i).setOpen(true);
+            if (getVizmennyiseg() > getSzint(i)) getcso(i).setOpen(true);
             else getcso(i).setOpen(false);
         }
         for (int i = 0; i < pipe.size(); i++) {
@@ -122,7 +130,6 @@ public class Matek {
     public static void main(String[] args) {
         float[] csovek = {1,2,4,8};
         Matek m = new  Matek(2, csovek);
-        m.szintfeltoltes();
         System.out.println(m.getVizmennyiseg());
         for(int i = 0; i< 200; i++){
             m.step(0.1f);

@@ -59,8 +59,9 @@ public class GameStage extends MyStage {
     {
         world = new World(new Vector2(0,-900), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(0,new float[]{50,60,70,80,90,100});
+        matek = new Matek(0,new float[]{8,20});
         matek.setBemeno((int)matek.getAtlag());
+        matek.szintfeltoltes();
         vizszint = new Vizszint();
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0 m" , Styles.getLabelStyle());
         currentKimeno = new MyLabel("Kimenő vízmennyiség: 0 m3", Styles.getLabelStyle());
