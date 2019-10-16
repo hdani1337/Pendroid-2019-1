@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -40,8 +41,12 @@ public class GameStage extends MyStage {
     MyLabel currentKimeno;
     MyLabel error;
     MyLabel currentBemeno;
+    MyLabel minLabel;
+    MyLabel maxLabel;
     Viz viz;
     Slider bemenoSlider;
+    Slider minSlider;
+    Slider maxSlider;
 
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
@@ -66,6 +71,8 @@ public class GameStage extends MyStage {
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0.000000 m" , Styles.getLabelStyle());
         currentKimeno = new MyLabel("Kimenő vízmennyiség: 0.00 m3/h", Styles.getLabelStyle());
         currentBemeno = new MyLabel("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
+        minLabel = new MyLabel("8.9m", Styles.getLabelStyle());
+        maxLabel = new MyLabel("9.1m", Styles.getLabelStyle());
         error = new MyLabel("Hiba: Több a befolyó vízmennyíség, mint amennyi kifolyhat!", Styles.getLabelStyle());
         background = new Background(Assets.manager.get(Assets.WALLPAPER_TEXTURE),viewport);
         tartaly = new Tartaly(world, loader);
@@ -92,10 +99,52 @@ public class GameStage extends MyStage {
 
     void sliders()
     {
-        bemenoSlider = new Slider(0, matek.getOsszesKimeno()-1, 1, false, Styles.getSliderStyle(0));
-        bemenoSlider.setValue((matek.getOsszesKimeno())/2);
+        bemenoSlider = new Slider(0, matek.getOsszesKimeno()-1, 1, false, Styles.getSliderStyle(0,0));
+        bemenoSlider.setValue((int)(matek.getOsszesKimeno())/2);
         bemenoSlider.setSize(400,50);
-        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-100);
+        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-120);
+
+        bemenoSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                matek.setBemeno(bemenoSlider.getVisualValue());
+            }
+        });
+
+        minSlider = new Slider(0,10,0.1f,true,Styles.getSliderStyle(1,1));
+        minSlider.setSize(50,300);
+        minSlider.setValue(8.9f);
+        minSlider.setPosition(30,tartaly.getY());
+        minSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(minSlider.getVisualValue() >= maxSlider.getVisualValue()) {
+                    minSlider.setValue(maxSlider.getVisualValue()-0.1f);
+                }
+                matek.setMin(minSlider.getVisualValue());
+                matek.setDifi();
+                minLabel.setText(((int)(minSlider.getVisualValue()*10))/10.0f + "m");
+            }
+        });
+
+        maxSlider = new Slider(0,10,0.1f,true,Styles.getSliderStyle(1,2));
+        maxSlider.setSize(50,300);
+        maxSlider.setValue(9.1f);
+        maxSlider.setPosition(getViewport().getWorldWidth()-maxSlider.getWidth()-30,tartaly.getY());
+        maxSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(maxSlider.getVisualValue() <= minSlider.getVisualValue()) {
+                    maxSlider.setValue(minSlider.getVisualValue()+0.1f);
+                }
+                matek.setMax(maxSlider.getVisualValue());
+                matek.setDifi();
+                maxLabel.setText(((int)(maxSlider.getVisualValue()*10))/10.0f + "m");
+            }
+        });
+
+        minLabel.setPosition((minSlider.getX() + minSlider.getWidth()/2) - minLabel.getWidth()/2,minSlider.getY()-minLabel.getHeight());
+        maxLabel.setPosition((maxSlider.getX() + maxSlider.getWidth()/2) - maxLabel.getWidth()/2,maxSlider.getY()-maxLabel.getHeight());
     }
 
     void addActors()
@@ -109,7 +158,13 @@ public class GameStage extends MyStage {
         addActor(tartaly);
         addActor(currentBemeno);
         addActor(bemenoSlider);
+        addActor(minSlider);
+        addActor(maxSlider);
+        addActor(minLabel);
+        addActor(maxLabel);
         tartaly.setZIndex(1000);
+        minSlider.setZIndex(1001);
+        maxSlider.setZIndex(1001);
     }
 
     void error()
@@ -192,7 +247,6 @@ public class GameStage extends MyStage {
             matek.step(delta);
             update();
             vizCseppek();
-            matek.setBemeno(bemenoSlider.getVisualValue());
         }
     }
 

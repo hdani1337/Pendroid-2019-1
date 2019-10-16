@@ -35,13 +35,18 @@ public class Styles {
     }
 
 
-    public static Slider.SliderStyle getSliderStyle(int a){//Szeretlek Csongor <3 https://github.com/mordes/CarSpinners/blob/master/core/src/com/mygdx/game/MyGdxGame.java
+    public static Slider.SliderStyle getSliderStyle(int bgId, int sliderId){//Szeretlek Csongor <3 https://github.com/mordes/CarSpinners/blob/master/core/src/com/mygdx/game/MyGdxGame.java
         Slider.SliderStyle style;
         style = new Slider.SliderStyle();
-        if(a == 0) style.background = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_BG_RAINBOW)));
-        else if(a == 1) style.background = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_BG_BR)));
-        else if(a == 2) style.background = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_BG_GR)));
-        style.knob = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_KNOB)));
+
+        if(bgId == 0) style.background = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_BG_RAINBOW)));
+        else if(bgId == 1) style.background = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_BG_BR)));
+        else if(bgId == 2) style.background = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_BG_GR)));
+
+        if(sliderId == 0)style.knob = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_KNOB)));
+        else if(sliderId == 1)style.knob = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_KNOB_M90)));
+        else if(sliderId == 2)style.knob = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.SLIDER_KNOB_90)));
+
         style.knob.setMinHeight(64);
         style.knob.setMinWidth(64);
         return style;

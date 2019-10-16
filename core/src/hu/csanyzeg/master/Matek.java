@@ -13,6 +13,10 @@ public class Matek {
     ArrayList<cso> pipe = new ArrayList<cso>();
     ArrayList<Float> szintek = new ArrayList<Float>();
 
+    float min = 890;
+    float max = 910;
+    //Ezeket még csak azért rakom be, hogy a slidereknek megadhassak valamit
+
 
     public Matek(float vizbe, float[] csok) {
         beviz = vizbe;
@@ -22,7 +26,7 @@ public class Matek {
             cso asd = new cso(a,co);
             pipe.add(asd);
         }
-        difi = 20 / csok.length;
+        setDifi();
     }
 
     public ArrayList<cso> getPipe() {
@@ -31,6 +35,11 @@ public class Matek {
 
     public cso getcso(int i) {
         return getPipe().get(i);
+    }
+
+    public void setDifi()
+    {
+        difi = (max-min) / getPipe().size();
     }
 
     public float getVizmennyiseg(){
@@ -88,6 +97,16 @@ public class Matek {
             if(getPipe().get(i).getKi() > min) min = getPipe().get(i).getKi();
         }
         return min;
+    }
+
+    public void setMin(float value)
+    {
+        min = value * 100;
+    }
+    //A teljes vízmennyiséget adjuk vissza, hiszen a setDifi ezekkel számol
+    public void setMax(float value)
+    {
+        max = value * 100;
     }
 
     public void step(float deltaTime)
