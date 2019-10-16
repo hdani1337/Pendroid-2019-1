@@ -16,7 +16,7 @@ public class GameScreen extends MyScreen {
 
     public GameScreen(MyGame game) {
         super(game);
-        gameStage = new GameStage(new FitViewport(720,keparanySzelesvaszonra(720)),spriteBatch,game);
+        gameStage = new GameStage(new FitViewport(720,keparanySzelesvaszonra()),spriteBatch,game);
         Gdx.input.setInputProcessor(gameStage);
     }
 

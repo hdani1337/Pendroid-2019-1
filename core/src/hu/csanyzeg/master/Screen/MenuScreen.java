@@ -14,7 +14,7 @@ public class MenuScreen extends MyScreen {
 
     public MenuScreen(MyGame game) {
         super(game);
-        menuStage = new MenuStage(new FitViewport(720,keparanySzelesvaszonra(720)),spriteBatch,game);
+        menuStage = new MenuStage(new FitViewport(720,keparanySzelesvaszonra()),spriteBatch,game);
         Gdx.input.setInputProcessor(menuStage);
     }
 

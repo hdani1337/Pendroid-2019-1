@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -39,25 +40,24 @@ public class GameStage extends MyStage {
     MyLabel currentKimeno;
     MyLabel error;
     MyLabel currentBemeno;
-    MyButton plus;
-    MyButton minus;
     Viz viz;
+    Slider bemenoSlider;
 
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
         assignment(viewport);
         if(matek.getBemeno() < matek.getOsszesKimeno()) {
             setSizesAndPositions(viewport);
+            sliders();
             tamaszok(tartaly);
             addActors();
-            addListeners();
         }
         else error();//Ha több a befolyó vízmennyiség, mint a kifolyó
     }
 
     void assignment(Viewport viewport)
     {
-        world = new World(new Vector2(0,-1800), false);
+        world = new World(new Vector2(0,-900), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
         matek = new Matek(0,new float[]{8,12,16,20,24});
         matek.setBemeno((int)matek.getAtlag());
@@ -66,8 +66,6 @@ public class GameStage extends MyStage {
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0.000000 m" , Styles.getLabelStyle());
         currentKimeno = new MyLabel("Kimenő vízmennyiség: 0.00 m3/h", Styles.getLabelStyle());
         currentBemeno = new MyLabel("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
-        plus = new MyButton("+",Styles.getTextButtonStyle());
-        minus = new MyButton("-",Styles.getTextButtonStyle());
         error = new MyLabel("Hiba: Több a befolyó vízmennyíség, mint amennyi kifolyhat!", Styles.getLabelStyle());
         background = new Background(Assets.manager.get(Assets.WALLPAPER_TEXTURE),viewport);
         tartaly = new Tartaly(world, loader);
@@ -86,39 +84,18 @@ public class GameStage extends MyStage {
         viz.setX(vizszint.getX());
         viz.setY(vizszint.getY());
 
-        plus.setHeight(150);
-        minus.setHeight(150);
-        plus.setWidth(plus.getHeight());
-        plus.setY(viewport.getWorldHeight()-plus.getHeight());
-        minus.setWidth(plus.getWidth());
-        minus.setY(plus.getY());
-        minus.setX(viewport.getWorldWidth()-minus.getWidth());
-        currentBemeno.setX(viewport.getWorldWidth()/2-currentBemeno.getWidth()/2);
-        currentBemeno.setY(minus.getY()-60);
-
         currentKimeno.setPosition(viewport.getWorldWidth()/2-currentKimeno.getWidth()/2,35);
         currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2,currentKimeno.getHeight()+15);
+        currentBemeno.setX(viewport.getWorldWidth()/2-currentBemeno.getWidth()/2);
+        currentBemeno.setY(currentVizszint.getY()+currentVizszint.getHeight()+10);
     }
 
-    void addListeners()
+    void sliders()
     {
-        plus.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if(matek.getBemeno() < matek.getOsszesKimeno()-1) matek.setBemeno(matek.getBemeno()+1);
-                currentBemeno.setText("Bemenő vízmennyiség:" + (int)matek.getBemeno() + " m3/h");
-            }
-        });
-
-        minus.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if(matek.getBemeno() > 0) matek.setBemeno(matek.getBemeno()-1);
-                currentBemeno.setText("Bemenő vízmennyiség:" + (int)matek.getBemeno() + " m3/h");
-            }
-        });
+        bemenoSlider = new Slider(0, matek.getOsszesKimeno()-1, 1, false, Styles.getSliderStyle(0));
+        bemenoSlider.setValue((matek.getOsszesKimeno())/2);
+        bemenoSlider.setSize(400,50);
+        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-100);
     }
 
     void addActors()
@@ -130,10 +107,8 @@ public class GameStage extends MyStage {
         addActor(currentKimeno);
         addActor(viz);
         addActor(tartaly);
-        addActor(plus);
-        addActor(minus);
         addActor(currentBemeno);
-
+        addActor(bemenoSlider);
         tartaly.setZIndex(1000);
     }
 
@@ -174,8 +149,6 @@ public class GameStage extends MyStage {
     {
         if (elapsedTime > pElapsedTime + (0.01/matek.getBemeno())) {
             if (matek.getVizmennyiseg() + 890 < 1000 && matek.getVizmennyiseg()+890 > 890 && matek.getBemeno() !=0) {
-                //System.out.println(vizcseppCount);
-                //System.out.println(matek.getVizmennyiseg()+890);
                 WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                 vizcsepp2.addToWorld();
                 vizcsepp2.setPosition((float)(Math.random() * 450 + 150), getViewport().getWorldHeight()+50);
@@ -196,6 +169,7 @@ public class GameStage extends MyStage {
                 {
                     vizcseppCount--;
                     actor.remove();
+                    ((Vizcsepp) actor).removeFromStage();
                 }
             }
         }
@@ -207,6 +181,7 @@ public class GameStage extends MyStage {
         viz.setHeight(vizszint.getY()-(tartaly.getY()+35)-7.5f);
         currentVizszint.setText("Jelenlegi vízszint: " + (matek.getVizmennyiseg()+890)/100 + " m");
         currentKimeno.setText("Kimenő vízmennyiség: " + matek.getKimeno() + " m3/h");
+        currentBemeno.setText("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h");
     }
 
     @Override
@@ -217,8 +192,8 @@ public class GameStage extends MyStage {
             matek.step(delta);
             update();
             vizCseppek();
+            matek.setBemeno(bemenoSlider.getVisualValue());
         }
-        System.out.println(getViewport().getWorldWidth() + " " + getViewport().getWorldHeight());
     }
 
     @Override

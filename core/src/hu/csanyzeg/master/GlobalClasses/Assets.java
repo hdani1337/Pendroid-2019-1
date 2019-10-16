@@ -41,6 +41,10 @@ public class Assets {
     public static final AssetDescriptor<Texture> VIZ_TEXTURE = new AssetDescriptor<Texture>("water.png", Texture.class);
     public static final AssetDescriptor<Texture> VIZ = new AssetDescriptor<Texture>("waterBlue.png", Texture.class);
     public static final AssetDescriptor<Texture> VIZSZINT_TEXTURE = new AssetDescriptor<Texture>("waterLevel.png", Texture.class);
+    public static final AssetDescriptor<Texture> SLIDER_KNOB = new AssetDescriptor<Texture>("haromszog.png", Texture.class);
+    public static final AssetDescriptor<Texture> SLIDER_BG_GR = new AssetDescriptor<Texture>("greenRed.png", Texture.class);
+    public static final AssetDescriptor<Texture> SLIDER_BG_BR = new AssetDescriptor<Texture>("blueRed.png", Texture.class);
+    public static final AssetDescriptor<Texture> SLIDER_BG_RAINBOW = new AssetDescriptor<Texture>("rainbow.png", Texture.class);
 
     public static void prepare() {
 		manager = new AssetManager();
@@ -66,6 +70,10 @@ public class Assets {
         manager.load(VIZ_TEXTURE);
         manager.load(VIZ);
         manager.load(VIZSZINT_TEXTURE);
+        manager.load(SLIDER_KNOB);
+        manager.load(SLIDER_BG_GR);
+        manager.load(SLIDER_BG_BR);
+        manager.load(SLIDER_BG_RAINBOW);
 	}
 
     public static void afterLoaded() {

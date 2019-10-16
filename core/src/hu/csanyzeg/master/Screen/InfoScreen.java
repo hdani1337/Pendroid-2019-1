@@ -14,7 +14,7 @@ public class InfoScreen extends MyScreen {
 
     public InfoScreen(MyGame game) {
         super(game);
-        infoStage = new InfoStage(new FitViewport(720,keparanySzelesvaszonra(720)),spriteBatch,game);
+        infoStage = new InfoStage(new FitViewport(720,keparanySzelesvaszonra()),spriteBatch,game);
         Gdx.input.setInputProcessor(infoStage);
     }
 
