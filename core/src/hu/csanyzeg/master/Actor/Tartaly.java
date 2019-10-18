@@ -13,7 +13,7 @@ public class Tartaly extends WorldActorGroup {
     private static float szelessegiArany = 0.571f;//Ha az egész tartály szélességét megszorozzuk ezzel az aránnyal, visszakapjuk a vízszint szélességét pixelben
 
     public Tartaly(World world, WorldBodyEditorLoader loader) {
-        super(world, loader, "Tartaly", BodyDef.BodyType.DynamicBody, 0, 0, 150f, false);
+        super(world, loader, "Tartaly", BodyDef.BodyType.StaticBody, 0, 0, 0, false);
 
 
         addActor(new OneSpriteStaticActor(Assets.manager.get(Assets.TARTALY_TEXTURE)){

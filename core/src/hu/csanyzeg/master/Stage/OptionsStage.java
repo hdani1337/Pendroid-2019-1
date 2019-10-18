@@ -23,7 +23,7 @@ public class OptionsStage extends MyStage {
         addActor(text);
 
         MyButton back = new MyButton("Vissza a menübe",Styles.getTextButtonStyle());
-        back.setPosition(viewport.getWorldWidth() - (back.getWidth() + 25),50);
+        back.setPosition(viewport.getWorldWidth()/2 - back.getWidth()/2,50);
         back.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

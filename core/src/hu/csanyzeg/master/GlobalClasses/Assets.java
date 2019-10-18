@@ -25,7 +25,7 @@ public class Assets {
 
 	static final FreetypeFontLoader.FreeTypeFontLoaderParameter fontParameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
 	static {
-		fontParameter.fontFileName = "alegreyaregular.otf";
+		fontParameter.fontFileName = "calibri.ttf";
 		fontParameter.fontParameters.size = 50;
 		fontParameter.fontParameters.characters = CHARS;
 		fontParameter.fontParameters.color = Color.WHITE;
@@ -47,6 +47,7 @@ public class Assets {
     public static final AssetDescriptor<Texture> SLIDER_BG_GR = new AssetDescriptor<Texture>("greenRed.png", Texture.class);
     public static final AssetDescriptor<Texture> SLIDER_BG_BR = new AssetDescriptor<Texture>("blueRed.png", Texture.class);
     public static final AssetDescriptor<Texture> SLIDER_BG_RAINBOW = new AssetDescriptor<Texture>("rainbow.png", Texture.class);
+    public static final AssetDescriptor<Texture> ERROR_TEXTURE = new AssetDescriptor<Texture>("error.png", Texture.class);
 
     public static void prepare() {
 		manager = new AssetManager();
@@ -78,6 +79,7 @@ public class Assets {
         manager.load(SLIDER_BG_GR);
         manager.load(SLIDER_BG_BR);
         manager.load(SLIDER_BG_RAINBOW);
+        manager.load(ERROR_TEXTURE);
 	}
 
     public static void afterLoaded() {

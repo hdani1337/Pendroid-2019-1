@@ -16,6 +16,7 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new MyGdxGame(), config);
 		config.useWakelock = true;//Ne aludjon el a telefon
+		MyGdxGame.setMultitasking(true);
 	}
 
 	@Override

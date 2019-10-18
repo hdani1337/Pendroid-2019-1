@@ -12,5 +12,6 @@ public class DesktopLauncher {
 		config.height = 720;
 		config.vSyncEnabled = true;
 		config.fullscreen = false;
+		MyGdxGame.setMultitasking(false);//gépen laggol a multitasking
 	}
 }

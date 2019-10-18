@@ -16,7 +16,7 @@ public class Fal extends WorldActorGroup {
         getFixtureDef().friction = 0f;
         getFixtureDef().restitution = 0f;
 
-        setDebug(false);
+        //setDebug(false);
         //rotateBy(10f);
 
         setSize(szelesseg,magassag);

@@ -7,6 +7,7 @@ import hu.csanyzeg.master.ParentClasses.Game.MyGame;
 import hu.csanyzeg.master.Screen.LoadingScreen;
 
 public class MyGdxGame extends MyGame {
+	static boolean multitasking;
 	@Override
 	public void create () {
 		Assets.prepare();
@@ -30,6 +31,16 @@ public class MyGdxGame extends MyGame {
 		//Ha nem pontos a képarány számítása, akkor a világ magassága legyen a telefon kijelzőjének magassága 720 pixelhez viszonyítva
 
 		return x * egyArany;
+	}
+
+	public static void setMultitasking(boolean value)
+	{
+		multitasking = value;
+	}
+
+	public static boolean getMultitasking()
+	{
+		return multitasking;
 	}
 
 	@Override
