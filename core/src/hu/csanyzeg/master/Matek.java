@@ -15,8 +15,6 @@ public class Matek {
 
     float min = 890;
     float max = 910;
-    //Ezeket még csak azért rakom be, hogy a slidereknek megadhassak valamit
-
 
     public Matek(float vizbe, float[] csok) {
         beviz = vizbe;
@@ -39,7 +37,7 @@ public class Matek {
 
     public void setDifi()
     {
-        difi = (max-min) / getPipe().size();
+        difi = (max-min) / getPipe().size() / 20;//fogalmam sincs miért kell még 20-al elosztani, de így ad vissza pontos értéket
     }
 
     public float getVizmennyiseg(){
@@ -89,6 +87,8 @@ public class Matek {
         return getOsszesKimeno()/pipe.size();
     }
 
+    public float getDifi() {return difi;}
+
     public float getLegnagyobb()
     {
         float min = 0;
@@ -124,7 +124,7 @@ public class Matek {
     public void setKimeno() {
         float sum =0; //csak egy void ami összegzi a nyílt csöveken átmenő vízmennyiséget
         for (int i = 0; i < pipe.size(); i++){
-            if (getVizmennyiseg() > getSzint(i)) getcso(i).setOpen(true);
+            if (getVizmennyiseg() + 890 > getSzint(i)) getcso(i).setOpen(true);
             else getcso(i).setOpen(false);
         }
         for (int i = 0; i < pipe.size(); i++) {
@@ -133,11 +133,31 @@ public class Matek {
         this.kimeno = sum;
     }
 
-    public void szintfeltoltes(){
+    public void szintfeltoltes(){//ez fut le először, feltölti a szint tömböt
         float sum = 0;
-        while (sum <= 20){
+        while (sum <= max-min){
+            szintek.add(sum + min);
             sum += difi;
-            szintek.add(sum);
+            //itt a kettőt megcseréltem, mivel a 0-t is belekell rakni, mert ott is kikell nyitni már egy csapot
+        }
+    }
+
+    public void szintfeltoltesSokadszorra(){//ez felülírja a szint tömbben lévő értékeket
+        float sum = 0;
+        while (sum <= max-min){
+            for (int i = 0; i < szintek.size(); i++)
+            {
+                szintek.set(i,sum + min);
+            }
+            sum += difi;
+        }
+    }
+
+    public void szintekNull()
+    {//szintek nullázása
+        for (int i = 0; i < szintek.size();i++)
+        {
+            szintek.set(i,0f);
         }
     }
 

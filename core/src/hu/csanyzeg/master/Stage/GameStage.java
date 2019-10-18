@@ -64,7 +64,7 @@ public class GameStage extends MyStage {
     {
         world = new World(new Vector2(0,-900), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(0,new float[]{8,12,16,20,24});
+        matek = new Matek(0,new float[]{8,12,15});
         matek.setBemeno((int)matek.getAtlag());
         matek.szintfeltoltes();
         vizszint = new Vizszint();
@@ -123,6 +123,7 @@ public class GameStage extends MyStage {
                 }
                 matek.setMin(minSlider.getVisualValue());
                 matek.setDifi();
+                matek.szintfeltoltesSokadszorra();
                 minLabel.setText(((int)(minSlider.getVisualValue()*10))/10.0f + "m");
             }
         });
@@ -139,6 +140,7 @@ public class GameStage extends MyStage {
                 }
                 matek.setMax(maxSlider.getVisualValue());
                 matek.setDifi();
+                matek.szintfeltoltesSokadszorra();
                 maxLabel.setText(((int)(maxSlider.getVisualValue()*10))/10.0f + "m");
             }
         });
@@ -203,7 +205,7 @@ public class GameStage extends MyStage {
     void vizCseppek()
     {
         if (elapsedTime > pElapsedTime + (0.01/matek.getBemeno())) {
-            if (matek.getVizmennyiseg() + 890 < 1000 && matek.getVizmennyiseg()+890 > 890 && matek.getBemeno() !=0) {
+            if (matek.getBemeno() !=0) {
                 WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                 vizcsepp2.addToWorld();
                 vizcsepp2.setPosition((float)(Math.random() * 450 + 150), getViewport().getWorldHeight()+50);
@@ -232,11 +234,17 @@ public class GameStage extends MyStage {
 
     void update()
     {
-        vizszint.update(tartaly.getHeight(),(matek.getVizmennyiseg()+890)/10,tartaly.getY()+35);
-        viz.setHeight(vizszint.getY()-(tartaly.getY()+35)-7.5f);
-        currentVizszint.setText("Jelenlegi vízszint: " + (matek.getVizmennyiseg()+890)/100 + " m");
         currentKimeno.setText("Kimenő vízmennyiség: " + matek.getKimeno() + " m3/h");
         currentBemeno.setText("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h");
+
+        if((matek.getVizmennyiseg()+890)/10 >= 1) {
+            vizszint.update(tartaly.getHeight(), (matek.getVizmennyiseg() + 890) / 10, tartaly.getY() + 35);
+            currentVizszint.setText("Jelenlegi vízszint: " + (matek.getVizmennyiseg() + 890) / 100 + " m");
+        }
+
+        if((matek.getVizmennyiseg()+890)/100 <= 0.1) currentVizszint.setText("Jelenlegi vízszint: 0 m");
+        else currentVizszint.setText("Jelenlegi vízszint: " + (matek.getVizmennyiseg()+890)/100 + " m");
+        viz.setHeight(vizszint.getY()-(tartaly.getY()+35)-7.5f);
     }
 
     @Override
