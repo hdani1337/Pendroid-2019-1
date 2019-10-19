@@ -267,6 +267,7 @@ public class GameStage extends MyStage {
     }
 
     float pElapsedTime =0;
+    float rElapsedTime =0;
 
     void vizCseppek()
     {
@@ -279,33 +280,20 @@ public class GameStage extends MyStage {
                 vizcsepp2.setZIndex(5);
                 pElapsedTime = elapsedTime;
             }
-            for (int i = 0; i < matek.getPipe().size(); i++)
-            {
-                if(matek.getcso(i).isOpen())
-                {
+        }
+    }
+
+    void vizCseppekKi()
+    {
+        if (elapsedTime > rElapsedTime + 0.03f) {
+            for (int i = 0; i < matek.getPipe().size(); i++) {
+                if (matek.getcso(i).isOpen()) {
                     WorldActorGroup vizcsepp3 = new Vizcsepp(world);
                     vizcsepp3.addToWorld();
-                    vizcsepp3.setPosition((float)(Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth()/2), csovek.get(i).getY()+30);
+                    vizcsepp3.setPosition((float) (Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth() / 2), csovek.get(i).getY() + 30);
                     addActor(vizcsepp3);
                     vizcsepp3.setZIndex(1);
-                    pElapsedTime = elapsedTime;
-                }
-            }
-        }
-        if (matek.getBemeno() ==0)
-        {
-            if (elapsedTime > pElapsedTime + 0.05) {
-                for (int i = 0; i < matek.getPipe().size(); i++)
-                {
-                    if(matek.getcso(i).isOpen())
-                    {
-                        WorldActorGroup vizcsepp3 = new Vizcsepp(world);
-                        vizcsepp3.addToWorld();
-                        vizcsepp3.setPosition((float)(Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth()/2), csovek.get(i).getY()+30);
-                        addActor(vizcsepp3);
-                        vizcsepp3.setZIndex(1);
-                        pElapsedTime = elapsedTime;
-                    }
+                    rElapsedTime = elapsedTime;
                 }
             }
         }
@@ -315,7 +303,7 @@ public class GameStage extends MyStage {
     {
         for (Actor actor : getActors()) {
             if (actor instanceof Vizcsepp) {
-                if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY())//Ne egyből tűnjön el, legyen egy kis átmenet
+                if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY() || actor.getY()+actor.getHeight()*2 < 0)//Ne egyből tűnjön el, legyen egy kis átmenet
                 {
                     ((WorldActorGroup) actor).removeFromWorld();
                     ((WorldActorGroup) actor).removeFromStage();
@@ -380,6 +368,7 @@ public class GameStage extends MyStage {
             matek.step(delta);
             updateThread();
             vizCseppek();
+            vizCseppekKi();
             removeVizcseppek();
         }
     }
