@@ -13,8 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 import hu.csanyzeg.master.Actor.Background;
+import hu.csanyzeg.master.Actor.CsoActor;
 import hu.csanyzeg.master.Actor.Fal;
+import hu.csanyzeg.master.Actor.Felho;
+import hu.csanyzeg.master.Actor.Kacsa;
 import hu.csanyzeg.master.Actor.Tartaly;
 import hu.csanyzeg.master.Actor.Viz;
 import hu.csanyzeg.master.Actor.Vizcsepp;
@@ -44,12 +49,17 @@ public class GameStage extends MyStage {
     MyLabel currentKimeno;
     MyLabel error;
     MyLabel currentBemeno;
+    MyLabel currentBemenoValue;
     MyLabel minLabel;
     MyLabel maxLabel;
     Viz viz;
     Slider bemenoSlider;
     Slider minSlider;
     Slider maxSlider;
+    Felho felho;
+    Felho felhoNapos;
+    Kacsa kacsa;
+    ArrayList<CsoActor> csovek = new ArrayList<CsoActor>();
 
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
@@ -71,8 +81,10 @@ public class GameStage extends MyStage {
         matek.szintfeltoltes();
         vizszint = new Vizszint();
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0.000000 m" , Styles.getLabelStyle());
+        currentVizszint.setColor(Color.BLACK);
         currentKimeno = new MyLabel("Kimenő vízmennyiség: 0.00 m3/h", Styles.getLabelStyle());
-        currentBemeno = new MyLabel("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
+        currentBemeno = new MyLabel("Bemenő vízmennyiség", Styles.getLabelStyle());
+        currentBemenoValue = new MyLabel((int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
         minLabel = new MyLabel("8.9m", Styles.getLabelStyle());
         maxLabel = new MyLabel("9.1m", Styles.getLabelStyle());
         error = new MyLabel("Hiba!\nTöbb a befolyó vízmennyíség,\nmint amennyi kifolyhat!", Styles.getLabelStyle());
@@ -80,6 +92,13 @@ public class GameStage extends MyStage {
         background = new Background(Assets.manager.get(Assets.WALLPAPER_TEXTURE),viewport);
         tartaly = new Tartaly(world, loader);
         viz = new Viz();
+        felho = new Felho(Assets.manager.get(Assets.DARK_FELHO_TEXTURE));
+        felhoNapos = new Felho(Assets.manager.get(Assets.FELHO_TEXTURE));
+        kacsa = new Kacsa();
+
+        for (int i = 0; i < matek.getPipe().size();i++) {
+            csovek.add(new CsoActor());
+        }
     }
 
     void setSizesAndPositions(Viewport viewport)
@@ -90,14 +109,27 @@ public class GameStage extends MyStage {
         vizszint.setY(tartaly.getY()+35);
         vizszint.setWidth(vizszintSzelesseg(tartaly.getWidth())+5);
 
+        felho.setPosition(viewport.getWorldWidth()/2-felho.getWidth()/2,viewport.getWorldHeight()-felho.getHeight()/1.5f);
+        felhoNapos.setPosition(felho.getX(),felho.getY());
+
         viz.setWidth(vizszint.getWidth());
         viz.setX(vizszint.getX());
         viz.setY(vizszint.getY());
 
-        currentKimeno.setPosition(viewport.getWorldWidth()/2-currentKimeno.getWidth()/2,25);
-        currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2,currentKimeno.getHeight()+15);
+        currentKimeno.setPosition(viewport.getWorldWidth()/2-currentKimeno.getWidth()/2,65);
+
+        currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2+8,viz.getY() + tartaly.getHeight()/3.4f);
+        currentVizszint.setAlignment(0);
+
         currentBemeno.setX(viewport.getWorldWidth()/2-currentBemeno.getWidth()/2);
-        currentBemeno.setY(currentKimeno.getHeight()+currentVizszint.getY()-5);
+        currentBemeno.setY(viewport.getWorldHeight()-currentBemeno.getHeight()-15);
+        currentBemeno.setAlignment(0);
+        currentBemeno.setColor(Color.FIREBRICK);
+
+        currentBemenoValue.setX(viewport.getWorldWidth()/2-currentBemenoValue.getWidth()/2);
+        currentBemenoValue.setY(viewport.getWorldHeight()-currentBemenoValue.getHeight()-125);
+        currentBemenoValue.setAlignment(0);
+        currentBemenoValue.setColor(Color.FIREBRICK);
     }
 
     void sliders()
@@ -105,12 +137,13 @@ public class GameStage extends MyStage {
         bemenoSlider = new Slider(0, matek.getOsszesKimeno()-1, 1, false, Styles.getSliderStyle(0,0));
         bemenoSlider.setValue((int)(matek.getOsszesKimeno())/2);
         bemenoSlider.setSize(400,50);
-        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-160);
+        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-120);
 
         bemenoSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 matek.setBemeno(bemenoSlider.getVisualValue());
+                felho.setAlpha(bemenoSlider.getVisualPercent());
             }
         });
 
@@ -156,20 +189,48 @@ public class GameStage extends MyStage {
     {
         addActor(background);
         tartaly.addToWorld();
-        addActor(vizszint);
         addActor(currentVizszint);
+        addActor(kacsa);
+        addActor(vizszint);
         addActor(currentKimeno);
         addActor(viz);
         addActor(tartaly);
+        addActor(felhoNapos);
+        addActor(felho);
+        felho.setAlpha(0.5f);
+        felhoNapos.setAlpha(1);
         addActor(currentBemeno);
+        addActor(currentBemenoValue);
         addActor(bemenoSlider);
         addActor(minSlider);
         addActor(maxSlider);
         addActor(minLabel);
         addActor(maxLabel);
+        addCsovek();
         tartaly.setZIndex(1000);
         minSlider.setZIndex(1001);
         maxSlider.setZIndex(1001);
+        bemenoSlider.setZIndex(1001);
+    }
+
+    public static float tartalyKezdeteKacsa;
+    public static float tartalyVegeKacsa;
+
+    void addCsovek()
+    {
+        float tartalyKezdete = tartaly.getX()+102;
+        float tartalyVege = tartaly.getX()+590;
+        float tartalyAlja = tartaly.getY()-csovek.get(0).getHeight()+15;
+
+        tartalyKezdeteKacsa = tartalyKezdete+55;
+        tartalyVegeKacsa = tartalyKezdete+440;
+
+        for (int i = 0; i < csovek.size();i++)
+        {
+            csovek.get(i).remove();
+            csovek.get(i).setPosition(tartalyKezdete + (tartalyVege-tartalyKezdete)/csovek.size() * i,tartalyAlja);
+            addActor(csovek.get(i));
+        }
     }
 
     void error()
@@ -213,10 +274,39 @@ public class GameStage extends MyStage {
             if (matek.getBemeno() !=0) {
                 WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                 vizcsepp2.addToWorld();
-                vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY()+2);
+                vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY()-30);
                 addActor(vizcsepp2);
                 vizcsepp2.setZIndex(5);
                 pElapsedTime = elapsedTime;
+            }
+            for (int i = 0; i < matek.getPipe().size(); i++)
+            {
+                if(matek.getcso(i).isOpen())
+                {
+                    WorldActorGroup vizcsepp3 = new Vizcsepp(world);
+                    vizcsepp3.addToWorld();
+                    vizcsepp3.setPosition((float)(Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth()/2), csovek.get(i).getY()+30);
+                    addActor(vizcsepp3);
+                    vizcsepp3.setZIndex(1);
+                    pElapsedTime = elapsedTime;
+                }
+            }
+        }
+        if (matek.getBemeno() ==0)
+        {
+            if (elapsedTime > pElapsedTime + 0.05) {
+                for (int i = 0; i < matek.getPipe().size(); i++)
+                {
+                    if(matek.getcso(i).isOpen())
+                    {
+                        WorldActorGroup vizcsepp3 = new Vizcsepp(world);
+                        vizcsepp3.addToWorld();
+                        vizcsepp3.setPosition((float)(Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth()/2), csovek.get(i).getY()+30);
+                        addActor(vizcsepp3);
+                        vizcsepp3.setZIndex(1);
+                        pElapsedTime = elapsedTime;
+                    }
+                }
             }
         }
     }
@@ -225,7 +315,7 @@ public class GameStage extends MyStage {
     {
         for (Actor actor : getActors()) {
             if (actor instanceof Vizcsepp) {
-                if(actor.getY()<viz.getY()+viz.getHeight()-7.5)//Ne egyből tűnjön el, legyen egy kis átmenet
+                if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY())//Ne egyből tűnjön el, legyen egy kis átmenet
                 {
                     ((WorldActorGroup) actor).removeFromWorld();
                     ((WorldActorGroup) actor).removeFromStage();
@@ -233,6 +323,8 @@ public class GameStage extends MyStage {
             }
         }
     }
+
+    String vizMennyisegString;
 
     void updateThread()
     {
@@ -248,15 +340,35 @@ public class GameStage extends MyStage {
         void update()
         {
             currentKimeno.setText("Kimenő vízmennyiség: " + matek.getKimeno() + " m3/h");
-            currentBemeno.setText("Bemenő vízmennyiség: " + (int)matek.getBemeno() + " m3/h");
+            currentBemenoValue.setText((int)matek.getBemeno() + " m3/h");
+
+            vizMennyisegString = (matek.getVizmennyiseg() + 890) / 100 + "";
 
             if((matek.getVizmennyiseg()+890)/10 >= 1) {
                 vizszint.update(tartaly.getHeight(), (matek.getVizmennyiseg() + 890) / 10, tartaly.getY() + 35);
-                currentVizszint.setText("Jelenlegi vízszint: " + (matek.getVizmennyiseg() + 890) / 100 + " m");
+                kacsa.update(tartaly.getHeight(), (matek.getVizmennyiseg() + 890) / 10, tartaly.getY() + 35);
+                try
+                {
+                    currentVizszint.setText("Jelenlegi vízszint\n" + vizMennyisegString.substring(0,4) + " m");
+                }
+                catch (StringIndexOutOfBoundsException e)
+                {
+                    currentVizszint.setText("Jelenlegi vízszint\n" + vizMennyisegString.substring(0,3) + " m");
+                }
             }
 
-            if((matek.getVizmennyiseg()+890)/100 <= 0.1) currentVizszint.setText("Jelenlegi vízszint: 0 m");
-            else currentVizszint.setText("Jelenlegi vízszint: " + (matek.getVizmennyiseg()+890)/100 + " m");
+            if((matek.getVizmennyiseg()+890)/100 <= 0.1) currentVizszint.setText("Jelenlegi vízszint\n0 m");
+            else
+            {
+                try
+                {
+                    currentVizszint.setText("Jelenlegi vízszint\n" + vizMennyisegString.substring(0,4) + " m");
+                }
+                catch (StringIndexOutOfBoundsException e)
+                {
+                    currentVizszint.setText("Jelenlegi vízszint\n" + vizMennyisegString.substring(0,3) + " m");
+                }
+            }
             viz.setHeight(vizszint.getY()-(tartaly.getY()+35));
         }
 

@@ -31,8 +31,6 @@ public class Assets {
 		fontParameter.fontParameters.color = Color.WHITE;
 	}
 	public static final AssetDescriptor<BitmapFont> ALEGREYAREGULAR_FONT = new AssetDescriptor<BitmapFont>(fontParameter.fontFileName, BitmapFont.class, fontParameter);
-	public static final AssetDescriptor<Texture> CURSOR_TEXTURE = new AssetDescriptor<Texture>("cursor.png", Texture.class);
-	public static final AssetDescriptor<Texture> TEXTBOX_TEXTURE = new AssetDescriptor<Texture>("textbox.png", Texture.class);
     public static final AssetDescriptor<Texture> BLUE_TEXTURE = new AssetDescriptor<Texture>("blue.png", Texture.class);
     public static final AssetDescriptor<Texture> GREEN_TEXTURE = new AssetDescriptor<Texture>("green.png", Texture.class);
     public static final AssetDescriptor<Texture> YELLOW_TEXTURE = new AssetDescriptor<Texture>("yellow.png", Texture.class);
@@ -48,6 +46,10 @@ public class Assets {
     public static final AssetDescriptor<Texture> SLIDER_BG_BR = new AssetDescriptor<Texture>("blueRed.png", Texture.class);
     public static final AssetDescriptor<Texture> SLIDER_BG_RAINBOW = new AssetDescriptor<Texture>("rainbow.png", Texture.class);
     public static final AssetDescriptor<Texture> ERROR_TEXTURE = new AssetDescriptor<Texture>("error.png", Texture.class);
+    public static final AssetDescriptor<Texture> FELHO_TEXTURE = new AssetDescriptor<Texture>("felho.png", Texture.class);
+    public static final AssetDescriptor<Texture> DARK_FELHO_TEXTURE = new AssetDescriptor<Texture>("felhoBorus.png", Texture.class);
+    public static final AssetDescriptor<Texture> CSO_TEXTURE = new AssetDescriptor<Texture>("cso.png", Texture.class);
+    public static final AssetDescriptor<Texture> KACSA_TEXTURE = new AssetDescriptor<Texture>("kacsa.png", Texture.class);
 
     public static void prepare() {
 		manager = new AssetManager();
@@ -60,8 +62,6 @@ public class Assets {
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
 
-		manager.load(TEXTBOX_TEXTURE);
-		manager.load(CURSOR_TEXTURE);
 		manager.load(WALLPAPER_TEXTURE);
 
 		manager.load(ALEGREYAREGULAR_FONT);
@@ -80,6 +80,10 @@ public class Assets {
         manager.load(SLIDER_BG_BR);
         manager.load(SLIDER_BG_RAINBOW);
         manager.load(ERROR_TEXTURE);
+        manager.load(FELHO_TEXTURE);
+        manager.load(DARK_FELHO_TEXTURE);
+        manager.load(CSO_TEXTURE);
+        manager.load(KACSA_TEXTURE);
 	}
 
     public static void afterLoaded() {
