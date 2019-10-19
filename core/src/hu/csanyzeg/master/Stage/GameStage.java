@@ -1,6 +1,8 @@
 package hu.csanyzeg.master.Stage;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -60,6 +62,8 @@ public class GameStage extends MyStage {
     Felho felhoNapos;
     Kacsa kacsa;
     ArrayList<CsoActor> csovek = new ArrayList<CsoActor>();
+    Music waterSound = Assets.manager.get(Assets.VIZ_SOUND);
+    boolean isWaterPlaying = false;
 
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
@@ -76,7 +80,7 @@ public class GameStage extends MyStage {
     {
         world = new World(new Vector2(0,-900), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(0,new float[]{10,20});
+        matek = new Matek(0,new float[]{10,20,30,40});
         matek.setBemeno((int)matek.getAtlag());
         matek.szintfeltoltes();
         vizszint = new Vizszint();
@@ -269,48 +273,65 @@ public class GameStage extends MyStage {
     float pElapsedTime =0;
     float rElapsedTime =0;
 
-    void vizCseppek()
+    void waterThread()
     {
-        if (elapsedTime > pElapsedTime + 1/matek.getBemeno()) {
-            if (matek.getBemeno() !=0) {
-                WorldActorGroup vizcsepp2 = new Vizcsepp(world);
-                vizcsepp2.addToWorld();
-                vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY()-30);
-                addActor(vizcsepp2);
-                vizcsepp2.setZIndex(5);
-                pElapsedTime = elapsedTime;
-            }
-        }
+        if (MyGdxGame.getMultitasking()) {//Ha mobilon megy, akkor menjen külön szálra
+            new Thread(new Runnable() {
+                public void run() {
+                    vizCseppek();
+                    vizCseppekKi();
+                    removeVizcseppek();
+                }
+            }).start();
+        } else {
+            vizCseppek();
+            vizCseppekKi();
+            removeVizcseppek();
+        }//Gépen laggolna
     }
 
-    void vizCseppekKi()
-    {
-        if (elapsedTime > rElapsedTime + 0.03f) {
-            for (int i = 0; i < matek.getPipe().size(); i++) {
-                if (matek.getcso(i).isOpen()) {
-                    WorldActorGroup vizcsepp3 = new Vizcsepp(world);
-                    vizcsepp3.addToWorld();
-                    vizcsepp3.setPosition((float) (Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth() / 2), csovek.get(i).getY() + 30);
-                    addActor(vizcsepp3);
-                    vizcsepp3.setZIndex(1);
-                    rElapsedTime = elapsedTime;
+        void vizCseppek()
+        {
+            if (elapsedTime > pElapsedTime + 1.5/matek.getBemeno()) {
+                if (matek.getBemeno() !=0) {
+                    WorldActorGroup vizcsepp2 = new Vizcsepp(world);
+                    vizcsepp2.addToWorld();
+                    vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY()-30);
+                    addActor(vizcsepp2);
+                    vizcsepp2.setZIndex(5);
+                    pElapsedTime = elapsedTime;
                 }
             }
         }
-    }
 
-    void removeVizcseppek()
-    {
-        for (Actor actor : getActors()) {
-            if (actor instanceof Vizcsepp) {
-                if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY() || actor.getY()+actor.getHeight()*2 < 0)//Ne egyből tűnjön el, legyen egy kis átmenet
-                {
-                    ((WorldActorGroup) actor).removeFromWorld();
-                    ((WorldActorGroup) actor).removeFromStage();
+        void vizCseppekKi()
+        {
+            if (elapsedTime > rElapsedTime + 0.07f) {
+                for (int i = 0; i < matek.getPipe().size(); i++) {
+                    if (matek.getcso(i).isOpen()) {
+                        WorldActorGroup vizcsepp3 = new Vizcsepp(world);
+                        vizcsepp3.addToWorld();
+                        vizcsepp3.setPosition((float) (Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth() / 2), csovek.get(i).getY() + 30);
+                        addActor(vizcsepp3);
+                        vizcsepp3.setZIndex(1);
+                        rElapsedTime = elapsedTime;
+                    }
                 }
             }
         }
-    }
+
+        void removeVizcseppek()
+        {
+            for (Actor actor : getActors()) {
+                if (actor instanceof Vizcsepp) {
+                    if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY() || actor.getY()+actor.getHeight()*2 < 0)//Ne egyből tűnjön el, legyen egy kis átmenet
+                    {
+                        ((WorldActorGroup) actor).removeFromWorld();
+                        ((WorldActorGroup) actor).removeFromStage();
+                    }
+                }
+            }
+        }
 
     String vizMennyisegString;
 
@@ -358,6 +379,18 @@ public class GameStage extends MyStage {
                 }
             }
             viz.setHeight(vizszint.getY()-(tartaly.getY()+35));
+
+            if(!isWaterPlaying && (matek.getBemeno()!=0 || matek.getKimeno()!=0)) {
+                waterSound.play();
+                waterSound.setVolume(0.7f);
+                waterSound.setLooping(true);
+                isWaterPlaying = true;
+            }
+            if(isWaterPlaying && matek.getBemeno() == 0 && matek.getKimeno() == 0)
+            {
+                waterSound.stop();
+                isWaterPlaying = false;
+            }
         }
 
     @Override
@@ -367,9 +400,7 @@ public class GameStage extends MyStage {
         if(matek.getBemeno() < matek.getOsszesKimeno()) {
             matek.step(delta);
             updateThread();
-            vizCseppek();
-            vizCseppekKi();
-            removeVizcseppek();
+            waterThread();
         }
     }
 

@@ -27,7 +27,11 @@ public class Kacsa extends OneSpriteStaticActor {
         super.act(delta);
         setRotation(getRotation() + delta * speedR);
         setX(getX()-speedX);
-        if(getX()+getWidth() >= tartalyVegeKacsa || getX() <= tartalyKezdeteKacsa) speedX *= -1;
+        if(getX()+getWidth() >= tartalyVegeKacsa || getX() <= tartalyKezdeteKacsa)
+        {
+            Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
+            speedX *= -1;
+        }
         if(getRotation() >= 6 || getRotation() <= -6) speedR *= -1;
     }
 }

@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -50,6 +52,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> DARK_FELHO_TEXTURE = new AssetDescriptor<Texture>("felhoBorus.png", Texture.class);
     public static final AssetDescriptor<Texture> CSO_TEXTURE = new AssetDescriptor<Texture>("cso.png", Texture.class);
     public static final AssetDescriptor<Texture> KACSA_TEXTURE = new AssetDescriptor<Texture>("kacsa.png", Texture.class);
+    public static final AssetDescriptor<Sound> KACSA_SOUND = new AssetDescriptor<Sound>("kacsa.mp3", Sound.class);
+    public static final AssetDescriptor<Music> VIZ_SOUND = new AssetDescriptor<Music>("water.mp3", Music.class);
 
     public static void prepare() {
 		manager = new AssetManager();
@@ -84,6 +88,8 @@ public class Assets {
         manager.load(DARK_FELHO_TEXTURE);
         manager.load(CSO_TEXTURE);
         manager.load(KACSA_TEXTURE);
+        manager.load(KACSA_SOUND);
+        manager.load(VIZ_SOUND);
 	}
 
     public static void afterLoaded() {

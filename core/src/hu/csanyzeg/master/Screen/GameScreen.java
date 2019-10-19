@@ -12,7 +12,6 @@ import static hu.csanyzeg.master.MyGdxGame.keparanySzelesvaszonra;
 
 public class GameScreen extends MyScreen {
     GameStage gameStage;
-    Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
 
     public GameScreen(MyGame game) {
         super(game);
@@ -21,11 +20,16 @@ public class GameScreen extends MyScreen {
     }
 
     @Override
+    public void show() {
+        super.show();
+        Gdx.input.setInputProcessor(gameStage);
+    }
+
+    @Override
     public void render(float delta) {
         super.render(delta);
         gameStage.draw();
         gameStage.act(delta);
-        //box2DDebugRenderer.render(gameStage.getWorld(), gameStage.getCamera().combined);
     }
 
     @Override
