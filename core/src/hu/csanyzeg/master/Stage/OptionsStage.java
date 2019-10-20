@@ -46,7 +46,7 @@ public class OptionsStage extends MyStage {
             @Override
             public void act(float delta) {
                 super.act(delta);
-                if (globalMute){
+                if (!globalMute){
                     if(kacsa.getX() <= muteOff.getX() + muteOff.getWidth() / 2 +49) {
                         if(muteOff.getAlpha()!=0) muteOff.setAlpha(muteOff.getAlpha()-0.075f);
                         kacsa.setX(getX() + 20);
@@ -58,11 +58,16 @@ public class OptionsStage extends MyStage {
                 }
                 else{
                     if(kacsa.getX() >= muteOff.getX()+26) {
-                        if(muteOff.getAlpha()!=1)muteOff.setAlpha(muteOff.getAlpha()+0.075f);
+                        if(kacsa.getX() < muteOff.getX() + muteOff.getWidth() / 2 + 50) {
+                            if (muteOff.getAlpha() != 1)
+                                muteOff.setAlpha(muteOff.getAlpha() + 0.075f);
+                        }
+                        else  muteOff.setAlpha(1);
                         kacsa.setX(getX()-20);
                     }
                     else {
                         kacsa.setX(muteOff.getX() + 25);
+                        muteOff.setAlpha(1);
                     }
                 }
             }
@@ -79,12 +84,11 @@ public class OptionsStage extends MyStage {
         mute.setPosition(viewport.getWorldWidth()/2-mute.getWidth()/2,viewport.getWorldHeight()/2+mute.getHeight()*2);
         muteOff.setPosition(mute.getX(),mute.getY());
         kacsa.setY(muteOff.getY());
-        if (globalMute){
-            kacsa.setX(0-kacsa.getWidth());
+        if (!globalMute){
+            kacsa.setX(0-kacsa.getWidth()*2);
         }
         else{
-            kacsa.setX(viewport.getWorldWidth());
-            muteOff.setAlpha(1);
+            kacsa.setX(viewport.getWorldWidth()+kacsa.getWidth());
         }
    }
 
