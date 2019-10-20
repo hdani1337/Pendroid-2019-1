@@ -78,9 +78,9 @@ public class GameStage extends MyStage {
 
     void assignment(Viewport viewport)
     {
-        world = new World(new Vector2(0,-900), false);
+        world = new World(new Vector2(0,-900000000), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(0,new float[]{10,20,30,40});
+        matek = new Matek(0,new float[]{5,10,15,20,25});
         matek.setBemeno((int)matek.getAtlag());
         matek.szintfeltoltes();
         vizszint = new Vizszint();
@@ -292,7 +292,7 @@ public class GameStage extends MyStage {
 
         void vizCseppek()
         {
-            if (elapsedTime > pElapsedTime + 1.5/matek.getBemeno()) {
+            if (elapsedTime > pElapsedTime + 7/matek.getBemeno()) {
                 if (matek.getBemeno() !=0) {
                     WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                     vizcsepp2.addToWorld();
@@ -306,7 +306,7 @@ public class GameStage extends MyStage {
 
         void vizCseppekKi()
         {
-            if (elapsedTime > rElapsedTime + 0.07f) {
+            if (elapsedTime > rElapsedTime + 0.3f) {
                 for (int i = 0; i < matek.getPipe().size(); i++) {
                     if (matek.getcso(i).isOpen()) {
                         WorldActorGroup vizcsepp3 = new Vizcsepp(world);
@@ -326,8 +326,7 @@ public class GameStage extends MyStage {
                 if (actor instanceof Vizcsepp) {
                     if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY() || actor.getY()+actor.getHeight()*2 < 0)//Ne egyből tűnjön el, legyen egy kis átmenet
                     {
-                        ((WorldActorGroup) actor).removeFromWorld();
-                        ((WorldActorGroup) actor).removeFromStage();
+                        ((WorldActorGroup) actor).remove();
                     }
                 }
             }
@@ -349,7 +348,7 @@ public class GameStage extends MyStage {
         void update()
         {
             currentKimeno.setText("Kimenő vízmennyiség: " + matek.getKimeno() + " m3/h");
-            currentBemenoValue.setText((int)matek.getBemeno() + " m3/h");
+            currentBemenoValue.setText((int)bemenoSlider.getVisualValue() + " m3/h");
 
             vizMennyisegString = (matek.getVizmennyiseg() + 890) / 100 + "";
 
@@ -395,7 +394,7 @@ public class GameStage extends MyStage {
 
     @Override
     public void act(float delta) {
-        world.step(delta, 10, 10);
+        world.step(delta/2, 100, 100);
         super.act(delta);
         if(matek.getBemeno() < matek.getOsszesKimeno()) {
             matek.step(delta);

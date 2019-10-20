@@ -19,11 +19,11 @@ public class Vizcsepp extends WorldActorGroup {
         getFixtureDef().restitution = 0.5f; // Pattanás
 
         OneSpriteStaticActor water = new OneSpriteStaticActor(Assets.manager.get(Assets.VIZ_TEXTURE));
-        water.setSize(15.3f,15);
+        water.setSize(25,25);
         water.setDebug(false);
 
         addActor(water);
-        setSize(15,15);
+        setSize(25,25);
         setColor(0,0,255,1);
     }
 }
