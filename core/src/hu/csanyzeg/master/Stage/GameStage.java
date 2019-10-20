@@ -62,6 +62,7 @@ public class GameStage extends MyStage {
     Felho felhoNapos;
     Kacsa kacsa;
     ArrayList<CsoActor> csovek = new ArrayList<CsoActor>();
+    ArrayList<MyLabel> csovekText = new ArrayList<MyLabel>();
     Music waterSound = Assets.manager.get(Assets.VIZ_SOUND);
     boolean isWaterPlaying = false;
 
@@ -186,7 +187,7 @@ public class GameStage extends MyStage {
         });
 
         minLabel.setPosition((minSlider.getX() + minSlider.getWidth()/2) - minLabel.getWidth()/2,minSlider.getY()-minLabel.getHeight());
-        maxLabel.setPosition((maxSlider.getX() + maxSlider.getWidth()/2) - maxLabel.getWidth()/2,maxSlider.getY()-maxLabel.getHeight());
+        maxLabel.setPosition((maxSlider.getX() + maxSlider.getWidth()/2) - maxLabel.getWidth()/2 - 10,maxSlider.getY()-maxLabel.getHeight());
     }
 
     void addActors()
@@ -232,8 +233,13 @@ public class GameStage extends MyStage {
         for (int i = 0; i < csovek.size();i++)
         {
             csovek.get(i).remove();
+
             csovek.get(i).setPosition(tartalyKezdete + (tartalyVege-tartalyKezdete)/csovek.size() * i,tartalyAlja);
+            csovekText.add(new MyLabel(matek.getPipe().get(i).getKistring().substring(0,matek.getPipe().get(i).getKistring().indexOf(".")),Styles.getLabelStyle()));
+            csovekText.get(i).setPosition(csovek.get(i).getX() + csovek.get(i).getWidth()/2 - csovekText.get(i).getWidth()/2,csovek.get(i).getY()-csovekText.get(i).getHeight());
+
             addActor(csovek.get(i));
+            addActor(csovekText.get(i));
         }
     }
 
@@ -310,6 +316,8 @@ public class GameStage extends MyStage {
             if (elapsedTime > rElapsedTime + 0.3f) {
                 for (int i = 0; i < matek.getPipe().size(); i++) {
                     if (matek.getcso(i).isOpen()) {
+                        csovek.get(i).setOn();
+                        csovekText.get(i).setText(matek.getPipe().get(i).getKistring().substring(0,matek.getPipe().get(i).getKistring().indexOf(".")));
                         WorldActorGroup vizcsepp3 = new Vizcsepp(world);
                         if(vizcsepp3 == null) return;
                         vizcsepp3.addToWorld();
@@ -317,6 +325,10 @@ public class GameStage extends MyStage {
                         addActor(vizcsepp3);
                         vizcsepp3.setZIndex(1);
                         rElapsedTime = elapsedTime;
+                    }
+                    else {
+                        csovek.get(i).setOff();
+                        csovekText.get(i).setText("0");
                     }
                 }
             }

@@ -9,4 +9,14 @@ public class CsoActor extends OneSpriteStaticActor {
         setSize(72,92);
         setDebug(false);
     }
+
+    public void setOn()
+    {
+        this.sprite.setTexture(Assets.manager.get(Assets.CSO_ON));
+    }
+
+    public void setOff()
+    {
+        this.sprite.setTexture(Assets.manager.get(Assets.CSO_OFF));
+    }
 }

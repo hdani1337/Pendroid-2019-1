@@ -52,6 +52,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> FELHO_TEXTURE = new AssetDescriptor<Texture>("felho.png", Texture.class);
     public static final AssetDescriptor<Texture> DARK_FELHO_TEXTURE = new AssetDescriptor<Texture>("felhoBorus.png", Texture.class);
     public static final AssetDescriptor<Texture> CSO_TEXTURE = new AssetDescriptor<Texture>("cso.png", Texture.class);
+    public static final AssetDescriptor<Texture> CSO_ON = new AssetDescriptor<Texture>("csoOn.png", Texture.class);
+    public static final AssetDescriptor<Texture> CSO_OFF = new AssetDescriptor<Texture>("csoOff.png", Texture.class);
     public static final AssetDescriptor<Texture> KACSA_TEXTURE = new AssetDescriptor<Texture>("kacsa.png", Texture.class);
     public static final AssetDescriptor<Texture> MENU_KACSA = new AssetDescriptor<Texture>("menuLogo.png", Texture.class);
     public static final AssetDescriptor<Texture> SPEECH_TEXTURE = new AssetDescriptor<Texture>("speech.png", Texture.class);
@@ -102,6 +104,8 @@ public class Assets {
         manager.load(CSANY);
         manager.load(PENDROID);
         manager.load(CSAPATLOGO);
+        manager.load(CSO_ON);
+        manager.load(CSO_OFF);
 	}
 
     public static void afterLoaded() {
