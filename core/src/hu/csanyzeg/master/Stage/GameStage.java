@@ -2,7 +2,6 @@ package hu.csanyzeg.master.Stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -12,14 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
 import hu.csanyzeg.master.Actor.Background;
 import hu.csanyzeg.master.Actor.CsoActor;
-import hu.csanyzeg.master.Actor.Fal;
 import hu.csanyzeg.master.Actor.Felho;
 import hu.csanyzeg.master.Actor.Kacsa;
 import hu.csanyzeg.master.Actor.Tartaly;
@@ -39,6 +36,7 @@ import hu.csanyzeg.master.ParentClasses.UI.MyButton;
 import hu.csanyzeg.master.ParentClasses.UI.MyLabel;
 
 import static hu.csanyzeg.master.Actor.Tartaly.vizszintSzelesseg;
+import static hu.csanyzeg.master.Stage.OptionsStage.globalMute;
 
 public class GameStage extends MyStage {
     World world;
@@ -314,6 +312,7 @@ public class GameStage extends MyStage {
                     if (matek.getcso(i).isOpen()) {
                         csovek.get(i).setOn();
                         csovekText.get(i).setText(matek.getPipe().get(i).getKistring().substring(0,matek.getPipe().get(i).getKistring().indexOf(".")));
+                        csovekText.get(i).setPosition(csovek.get(i).getX() + csovek.get(i).getWidth()/2 - csovekText.get(i).getWidth()/2,csovek.get(i).getY()-csovekText.get(i).getHeight());
                         WorldActorGroup vizcsepp3 = new Vizcsepp(world);
                         if(vizcsepp3 == null) return;
                         vizcsepp3.addToWorld();
@@ -325,6 +324,7 @@ public class GameStage extends MyStage {
                     else {
                         csovek.get(i).setOff();
                         csovekText.get(i).setText("0");
+                        csovekText.get(i).setPosition(csovek.get(i).getX() + csovek.get(i).getWidth()/2 - 13,csovek.get(i).getY()-csovekText.get(i).getHeight());
                     }
                 }
             }
@@ -389,16 +389,17 @@ public class GameStage extends MyStage {
             }
             viz.setHeight(vizszint.getY()-(tartaly.getY()+35));
 
-            if(!isWaterPlaying && (matek.getBemeno()!=0 || matek.getKimeno()!=0)) {
-                waterSound.play();
-                waterSound.setVolume(0.7f);
-                waterSound.setLooping(true);
-                isWaterPlaying = true;
-            }
-            if(isWaterPlaying && matek.getBemeno() == 0 && matek.getKimeno() == 0)
-            {
-                waterSound.stop();
-                isWaterPlaying = false;
+            if(globalMute) {
+                if (!isWaterPlaying && (matek.getBemeno() != 0 || matek.getKimeno() != 0)) {
+                    waterSound.play();
+                    waterSound.setVolume(0.7f);
+                    waterSound.setLooping(true);
+                    isWaterPlaying = true;
+                }
+                if (isWaterPlaying && matek.getBemeno() == 0 && matek.getKimeno() == 0) {
+                    waterSound.stop();
+                    isWaterPlaying = false;
+                }
             }
         }
 

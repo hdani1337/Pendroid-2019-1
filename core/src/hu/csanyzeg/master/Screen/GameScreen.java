@@ -1,7 +1,6 @@
 package hu.csanyzeg.master.Screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import hu.csanyzeg.master.ParentClasses.Game.MyGame;

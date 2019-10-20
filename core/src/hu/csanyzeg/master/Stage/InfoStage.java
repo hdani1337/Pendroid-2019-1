@@ -1,6 +1,5 @@
 package hu.csanyzeg.master.Stage;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -15,9 +14,6 @@ import hu.csanyzeg.master.ParentClasses.Game.MyGame;
 import hu.csanyzeg.master.ParentClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.ParentClasses.UI.MyButton;
-
-import static hu.csanyzeg.master.Stage.GameStage.tartalyKezdeteKacsa;
-import static hu.csanyzeg.master.Stage.GameStage.tartalyVegeKacsa;
 
 public class InfoStage extends MyStage {
     float speedX = 0.03f;

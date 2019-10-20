@@ -6,6 +6,7 @@ import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 import static hu.csanyzeg.master.Actor.Tartaly.vizszintMagassag;
 import static hu.csanyzeg.master.Stage.GameStage.tartalyKezdeteKacsa;
 import static hu.csanyzeg.master.Stage.GameStage.tartalyVegeKacsa;
+import static hu.csanyzeg.master.Stage.OptionsStage.globalMute;
 
 public class Kacsa extends OneSpriteStaticActor {
     public Kacsa() {
@@ -29,7 +30,7 @@ public class Kacsa extends OneSpriteStaticActor {
         setX(getX()-speedX);
         if(getX()+getWidth() >= tartalyVegeKacsa || getX() <= tartalyKezdeteKacsa)
         {
-            Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
+            if(!globalMute)Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
             speedX *= -1;
         }
         if(getRotation() >= 6 || getRotation() <= -6) speedR *= -1;

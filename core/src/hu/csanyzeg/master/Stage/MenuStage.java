@@ -19,8 +19,7 @@ import hu.csanyzeg.master.Screen.GameScreen;
 import hu.csanyzeg.master.Screen.InfoScreen;
 import hu.csanyzeg.master.Screen.OptionsScreen;
 
-import static hu.csanyzeg.master.Stage.GameStage.tartalyKezdeteKacsa;
-import static hu.csanyzeg.master.Stage.GameStage.tartalyVegeKacsa;
+import static hu.csanyzeg.master.Stage.OptionsStage.globalMute;
 
 public class MenuStage extends MyStage {
     Background background;
@@ -67,7 +66,7 @@ public class MenuStage extends MyStage {
 
                 if(getX()+getWidth() -50 >= getViewport().getWorldWidth() || getX() <= -40)
                 {
-                    Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
+                    if(!globalMute)Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
                     speedX *= -1;
                 }
 
