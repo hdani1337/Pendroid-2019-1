@@ -389,7 +389,7 @@ public class GameStage extends MyStage {
             }
             viz.setHeight(vizszint.getY()-(tartaly.getY()+35));
 
-            if(globalMute) {
+            if(!globalMute) {
                 if (!isWaterPlaying && (matek.getBemeno() != 0 || matek.getKimeno() != 0)) {
                     waterSound.play();
                     waterSound.setVolume(0.7f);
