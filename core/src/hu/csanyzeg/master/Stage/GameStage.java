@@ -48,7 +48,6 @@ public class GameStage extends MyStage {
     Vizszint vizszint;
     WorldActorGroup tartaly;
     MyLabel currentVizszint;
-    MyLabel currentKimeno;
     MyLabel error;
     MyLabel currentBemeno;
     MyLabel currentBemenoValue;
@@ -87,7 +86,6 @@ public class GameStage extends MyStage {
         vizszint = new Vizszint();
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0.000000 m" , Styles.getLabelStyle());
         currentVizszint.setColor(Color.BLACK);
-        currentKimeno = new MyLabel("Kimenő vízmennyiség: 0.00 m3/h", Styles.getLabelStyle());
         currentBemeno = new MyLabel("Bemenő vízmennyiség", Styles.getLabelStyle());
         currentBemenoValue = new MyLabel((int)matek.getBemeno() + " m3/h", Styles.getLabelStyle());
         minLabel = new MyLabel("8.9m", Styles.getLabelStyle());
@@ -121,7 +119,6 @@ public class GameStage extends MyStage {
         viz.setX(vizszint.getX());
         viz.setY(vizszint.getY());
 
-        currentKimeno.setPosition(viewport.getWorldWidth()/2-currentKimeno.getWidth()/2,65);
 
         currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2+8,viz.getY() + tartaly.getHeight()/3.4f);
         currentVizszint.setAlignment(0);
@@ -197,7 +194,6 @@ public class GameStage extends MyStage {
         addActor(currentVizszint);
         addActor(kacsa);
         addActor(vizszint);
-        addActor(currentKimeno);
         addActor(viz);
         addActor(tartaly);
         addActor(felhoNapos);
@@ -362,7 +358,6 @@ public class GameStage extends MyStage {
 
         void update()
         {
-            currentKimeno.setText("Kimenő vízmennyiség: " + matek.getKimeno() + " m3/h");
             currentBemenoValue.setText((int)bemenoSlider.getVisualValue() + " m3/h");
 
             vizMennyisegString = (matek.getVizmennyiseg() + 890) / 100 + "";

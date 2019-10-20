@@ -37,7 +37,7 @@ public class Matek {
 
     public void setDifi()
     {
-        difi = (max-min) / getPipe().size() / 20;//fogalmam sincs miért kell még 20-al elosztani, de így ad vissza pontos értéket
+        difi = (max-min)/getPipe().size();
     }
 
     public float getVizmennyiseg(){
@@ -135,7 +135,7 @@ public class Matek {
 
     public void szintfeltoltes(){//ez fut le először, feltölti a szint tömböt
         float sum = 0;
-        while (sum <= max-min){
+        while (sum < max-min){
             szintek.add(sum + min);
             sum += difi;
             //itt a kettőt megcseréltem, mivel a 0-t is belekell rakni, mert ott is kikell nyitni már egy csapot
@@ -144,11 +144,9 @@ public class Matek {
 
     public void szintfeltoltesSokadszorra(){//ez felülírja a szint tömbben lévő értékeket
         float sum = 0;
-        while (sum <= max-min){
-            for (int i = 0; i < szintek.size(); i++)
-            {
-                szintek.set(i,sum + min);
-            }
+        int index = 0;
+        while (sum < max-min){
+            szintek.set(index++, sum + min);
             sum += difi;
         }
     }
