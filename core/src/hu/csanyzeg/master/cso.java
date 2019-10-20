@@ -34,13 +34,13 @@ public class cso {
         if(open){
             if (!isOpen){
                 isOpen = true;
-                System.out.println(getKey() + "-as cso kinyílt");
+                //System.out.println(getKey() + "-as cso kinyílt");
             }
         }
         else {
             if(isOpen){
                 isOpen = false;
-                System.out.println(getKey() + "-as cso záródott");
+                //System.out.println(getKey() + "-as cso záródott");
             }
         }
 
@@ -49,6 +49,6 @@ public class cso {
 
     public void main(String[] args) {
       //  System.out.println("szoszi");
-        System.out.printf("Cső létrejött és %s vizet enged át%n", getKistring());
+        //System.out.printf("Cső létrejött és %s vizet enged át%n", getKistring());
     }
 }
