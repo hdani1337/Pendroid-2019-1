@@ -16,7 +16,7 @@ public class Kacsa extends OneSpriteStaticActor {
 
     public void update(float magassag, float szazalek, float baseHeight)
     {
-        setY(vizszintMagassag(magassag,szazalek) + baseHeight);
+        setY(vizszintMagassag(magassag,szazalek) + baseHeight - 15);
     }
 
     int speedR = 9;

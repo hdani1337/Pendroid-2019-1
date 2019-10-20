@@ -295,8 +295,9 @@ public class GameStage extends MyStage {
             if (elapsedTime > pElapsedTime + 7/matek.getBemeno()) {
                 if (matek.getBemeno() !=0) {
                     WorldActorGroup vizcsepp2 = new Vizcsepp(world);
+                    if(vizcsepp2 == null) return;
                     vizcsepp2.addToWorld();
-                    vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY()-30);
+                    vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY());
                     addActor(vizcsepp2);
                     vizcsepp2.setZIndex(5);
                     pElapsedTime = elapsedTime;
@@ -310,6 +311,7 @@ public class GameStage extends MyStage {
                 for (int i = 0; i < matek.getPipe().size(); i++) {
                     if (matek.getcso(i).isOpen()) {
                         WorldActorGroup vizcsepp3 = new Vizcsepp(world);
+                        if(vizcsepp3 == null) return;
                         vizcsepp3.addToWorld();
                         vizcsepp3.setPosition((float) (Math.random() * 12 + csovek.get(i).getX() + csovek.get(i).getWidth() / 2), csovek.get(i).getY() + 30);
                         addActor(vizcsepp3);
@@ -324,9 +326,10 @@ public class GameStage extends MyStage {
         {
             for (Actor actor : getActors()) {
                 if (actor instanceof Vizcsepp) {
-                    if(actor.getY()<viz.getY()+viz.getHeight()-7.5 && actor.getY() > viz.getY() || actor.getY()+actor.getHeight()*2 < 0)//Ne egyből tűnjön el, legyen egy kis átmenet
+                    if(actor.getY()<vizszint.getY()+vizszint.getHeight()/2 && actor.getY() > vizszint.getY() || actor.getY()+actor.getHeight()*2 < 0)//Ne egyből tűnjön el, legyen egy kis átmenet
                     {
                         ((WorldActorGroup) actor).remove();
+                        if(actor == null) return;
                     }
                 }
             }
