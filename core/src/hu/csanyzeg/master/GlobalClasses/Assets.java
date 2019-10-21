@@ -58,6 +58,7 @@ public class Assets {
     public static final AssetDescriptor<Texture> MENU_KACSA = new AssetDescriptor<Texture>("menuLogo.png", Texture.class);
     public static final AssetDescriptor<Texture> MUTE_KACSA = new AssetDescriptor<Texture>("kacsaMute.png", Texture.class);
     public static final AssetDescriptor<Texture> SPEECH_TEXTURE = new AssetDescriptor<Texture>("speech.png", Texture.class);
+    public static final AssetDescriptor<Texture> SPEECH2_TEXTURE = new AssetDescriptor<Texture>("speechSelect.png", Texture.class);
     public static final AssetDescriptor<Texture> CSANY = new AssetDescriptor<Texture>("csany.png", Texture.class);
     public static final AssetDescriptor<Texture> PENDROID = new AssetDescriptor<Texture>("pendroid.png", Texture.class);
     public static final AssetDescriptor<Texture> CSAPATLOGO = new AssetDescriptor<Texture>("csapatlogo.png", Texture.class);
@@ -106,6 +107,7 @@ public class Assets {
         manager.load(KACSA_SOUND);
         manager.load(VIZ_SOUND);
         manager.load(SPEECH_TEXTURE);
+        manager.load(SPEECH2_TEXTURE);
         manager.load(CSANY);
         manager.load(PENDROID);
         manager.load(CSAPATLOGO);

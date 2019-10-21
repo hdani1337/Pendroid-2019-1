@@ -15,6 +15,7 @@ import hu.csanyzeg.master.ParentClasses.Game.MyGame;
 import hu.csanyzeg.master.ParentClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.ParentClasses.UI.MyButton;
+import hu.csanyzeg.master.Screen.ChoiceScreen;
 import hu.csanyzeg.master.Screen.GameScreen;
 import hu.csanyzeg.master.Screen.InfoScreen;
 import hu.csanyzeg.master.Screen.OptionsScreen;
@@ -113,7 +114,7 @@ public class MenuStage extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new ChoiceScreen(game));
             }
         };
 

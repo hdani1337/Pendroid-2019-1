@@ -34,6 +34,7 @@ import hu.csanyzeg.master.ParentClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.ParentClasses.UI.MyButton;
 import hu.csanyzeg.master.ParentClasses.UI.MyLabel;
+import hu.csanyzeg.master.Screen.MenuScreen;
 
 import static hu.csanyzeg.master.Actor.Tartaly.vizszintSzelesseg;
 import static hu.csanyzeg.master.Stage.OptionsStage.globalMute;
@@ -63,7 +64,10 @@ public class GameStage extends MyStage {
     Music waterSound = Assets.manager.get(Assets.VIZ_SOUND);
     OneSpriteStaticActor minViz;
     OneSpriteStaticActor maxViz;
+    MyButton exit;
+    MyButton pause;
     boolean isWaterPlaying = false;
+    boolean paused = false;
 
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
@@ -80,7 +84,7 @@ public class GameStage extends MyStage {
     {
         world = new World(new Vector2(0,-900000000), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
-        matek = new Matek(0,new float[]{5,10,15,20,25});
+        matek = new Matek(0,ChoiceStage.csovekMeretei);
         matek.setBemeno((int)matek.getAtlag());
         matek.szintfeltoltes();
         vizszint = new Vizszint();
@@ -102,6 +106,38 @@ public class GameStage extends MyStage {
         maxViz = new OneSpriteStaticActor(Assets.manager.get(Assets.MAXVIZ));
         minViz.setDebug(false);
         maxViz.setDebug(false);
+        exit = new MyButton("Vissza a menübe",Styles.getTextButtonStyle());
+        pause = new MyButton("Szimuláció megállítása",Styles.getTextButtonStyle());
+
+        exit.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(!globalMute) waterSound.stop();
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+
+        pause.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(!paused)
+                {
+                    pause.setText("Szimuláció folytatása");
+                    paused = true;
+                    if(!globalMute)waterSound.pause();
+                }
+                else
+                {
+                    pause.setText("Szimuláció megállítása");
+                    paused = false;
+                    if(!globalMute)waterSound.play();
+                }
+            }
+        });
 
         for (int i = 0; i < matek.getPipe().size();i++) {
             csovek.add(new CsoActor());
@@ -138,6 +174,8 @@ public class GameStage extends MyStage {
         currentBemenoValue.setY(viewport.getWorldHeight()-currentBemenoValue.getHeight()-165);
         currentBemenoValue.setAlignment(0);
         currentBemenoValue.setColor(Color.FIREBRICK);
+        exit.setPosition(viewport.getWorldWidth()/2-exit.getWidth()/2,50);
+        pause.setPosition(viewport.getWorldWidth()/2-pause.getWidth()/2,75+exit.getHeight());
     }
 
     void sliders()
@@ -216,6 +254,8 @@ public class GameStage extends MyStage {
         addActor(maxSlider);
         addActor(minLabel);
         addActor(maxLabel);
+        addActor(exit);
+        addActor(pause);
         addCsovek();
         tartaly.setZIndex(1000);
         minSlider.setZIndex(1001);
@@ -420,13 +460,14 @@ public class GameStage extends MyStage {
 
     @Override
     public void act(float delta) {
-        world.step(delta/2, 100, 100);
-        super.act(delta);
-        if(matek.getBemeno() < matek.getOsszesKimeno()) {
+        if(!paused){
+            world.step(delta/2, 100, 100);
+            super.act(delta);
+            if(matek.getBemeno() < matek.getOsszesKimeno()) {
             matek.step(delta);
             updateThread();
             waterThread();
-        }
+        }}
     }
 
     @Override
