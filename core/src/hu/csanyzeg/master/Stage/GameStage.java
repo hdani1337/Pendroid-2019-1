@@ -61,6 +61,8 @@ public class GameStage extends MyStage {
     ArrayList<CsoActor> csovek = new ArrayList<CsoActor>();
     ArrayList<MyLabel> csovekText = new ArrayList<MyLabel>();
     Music waterSound = Assets.manager.get(Assets.VIZ_SOUND);
+    OneSpriteStaticActor minViz;
+    OneSpriteStaticActor maxViz;
     boolean isWaterPlaying = false;
 
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
@@ -96,6 +98,10 @@ public class GameStage extends MyStage {
         felho = new Felho(Assets.manager.get(Assets.DARK_FELHO_TEXTURE));
         felhoNapos = new Felho(Assets.manager.get(Assets.FELHO_TEXTURE));
         kacsa = new Kacsa();
+        minViz = new OneSpriteStaticActor(Assets.manager.get(Assets.MINVIZ));
+        maxViz = new OneSpriteStaticActor(Assets.manager.get(Assets.MAXVIZ));
+        minViz.setDebug(false);
+        maxViz.setDebug(false);
 
         for (int i = 0; i < matek.getPipe().size();i++) {
             csovek.add(new CsoActor());
@@ -104,30 +110,32 @@ public class GameStage extends MyStage {
 
     void setSizesAndPositions(Viewport viewport)
     {
-        tartaly.setPosition(viewport.getWorldWidth()/2-tartaly.getWidth()/2,viewport.getWorldHeight()/2-tartaly.getHeight()/2);
+        tartaly.setPosition(viewport.getWorldWidth()/2-tartaly.getWidth()/2,viewport.getWorldHeight()/2-tartaly.getHeight()/2 + 75);
 
         vizszint.setX(tartaly.getX()+150);
         vizszint.setY(tartaly.getY()+35);
         vizszint.setWidth(vizszintSzelesseg(tartaly.getWidth())+5);
 
-        felho.setPosition(viewport.getWorldWidth()/2-felho.getWidth()/2,viewport.getWorldHeight()-felho.getHeight()/1.5f);
+        felho.setPosition(viewport.getWorldWidth()/2-felho.getWidth()/2,viewport.getWorldHeight()-felho.getHeight()/1.5f - 40);
         felhoNapos.setPosition(felho.getX(),felho.getY());
 
         viz.setWidth(vizszint.getWidth());
         viz.setX(vizszint.getX());
         viz.setY(vizszint.getY());
 
+        minViz.setX(tartaly.getX()+152);
+        maxViz.setX(tartaly.getX()+152);
 
         currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2+8,viz.getY() + tartaly.getHeight()/3.4f);
         currentVizszint.setAlignment(0);
 
         currentBemeno.setX(viewport.getWorldWidth()/2-currentBemeno.getWidth()/2);
-        currentBemeno.setY(viewport.getWorldHeight()-currentBemeno.getHeight()-15);
+        currentBemeno.setY(viewport.getWorldHeight()-currentBemeno.getHeight()-55);
         currentBemeno.setAlignment(0);
         currentBemeno.setColor(Color.FIREBRICK);
 
         currentBemenoValue.setX(viewport.getWorldWidth()/2-currentBemenoValue.getWidth()/2);
-        currentBemenoValue.setY(viewport.getWorldHeight()-currentBemenoValue.getHeight()-125);
+        currentBemenoValue.setY(viewport.getWorldHeight()-currentBemenoValue.getHeight()-165);
         currentBemenoValue.setAlignment(0);
         currentBemenoValue.setColor(Color.FIREBRICK);
     }
@@ -137,7 +145,7 @@ public class GameStage extends MyStage {
         bemenoSlider = new Slider(0, matek.getOsszesKimeno()-1, 1, false, Styles.getSliderStyle(0,0));
         bemenoSlider.setValue((int)(matek.getOsszesKimeno())/2);
         bemenoSlider.setSize(400,50);
-        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-120);
+        bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-160);
 
         bemenoSlider.addListener(new ChangeListener() {
             @Override
@@ -148,9 +156,9 @@ public class GameStage extends MyStage {
         });
 
         minSlider = new Slider(0,10,0.1f,true,Styles.getSliderStyle(1,1));
-        minSlider.setSize(50,300);
+        minSlider.setSize(50,325);
         minSlider.setValue(8.9f);
-        minSlider.setPosition(30,tartaly.getY());
+        minSlider.setPosition(30,tartaly.getY()+42);
         minSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -165,9 +173,9 @@ public class GameStage extends MyStage {
         });
 
         maxSlider = new Slider(0,10,0.1f,true,Styles.getSliderStyle(1,2));
-        maxSlider.setSize(50,300);
+        maxSlider.setSize(50,325);
         maxSlider.setValue(9.1f);
-        maxSlider.setPosition(getViewport().getWorldWidth()-maxSlider.getWidth()-30,tartaly.getY());
+        maxSlider.setPosition(getViewport().getWorldWidth()-maxSlider.getWidth()-25,tartaly.getY()+42);
         maxSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -178,11 +186,12 @@ public class GameStage extends MyStage {
                 matek.setDifi();
                 matek.szintfeltoltesSokadszorra();
                 maxLabel.setText(((int)(maxSlider.getVisualValue()*10))/10.0f + "m");
+                if(((int)(maxSlider.getVisualValue()*10))/10.0f == 10) maxLabel.setText("10m");
             }
         });
 
-        minLabel.setPosition((minSlider.getX() + minSlider.getWidth()/2) - minLabel.getWidth()/2,minSlider.getY()-minLabel.getHeight());
-        maxLabel.setPosition((maxSlider.getX() + maxSlider.getWidth()/2) - maxLabel.getWidth()/2 - 10,maxSlider.getY()-maxLabel.getHeight());
+        minLabel.setPosition((minSlider.getX() + minSlider.getWidth()/2) - minLabel.getWidth()/2,minSlider.getY()-minLabel.getHeight()-30);
+        maxLabel.setPosition((maxSlider.getX() + maxSlider.getWidth()/2) - maxLabel.getWidth()/2 - 10,maxSlider.getY()-maxLabel.getHeight()-30);
     }
 
     void addActors()
@@ -194,6 +203,8 @@ public class GameStage extends MyStage {
         addActor(vizszint);
         addActor(viz);
         addActor(tartaly);
+        addActor(minViz);
+        addActor(maxViz);
         addActor(felhoNapos);
         addActor(felho);
         felho.setAlpha(0.5f);
@@ -209,6 +220,7 @@ public class GameStage extends MyStage {
         tartaly.setZIndex(1000);
         minSlider.setZIndex(1001);
         maxSlider.setZIndex(1001);
+        maxViz.setZIndex(1001);
         bemenoSlider.setZIndex(1001);
     }
 
@@ -297,7 +309,7 @@ public class GameStage extends MyStage {
                     WorldActorGroup vizcsepp2 = new Vizcsepp(world);
                     if(vizcsepp2 == null) return;
                     vizcsepp2.addToWorld();
-                    vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), bemenoSlider.getY());
+                    vizcsepp2.setPosition((float)(Math.random() * bemenoSlider.getWidth() + bemenoSlider.getX()), (float)(felho.getY()+30-Math.random() * 40));
                     addActor(vizcsepp2);
                     vizcsepp2.setZIndex(5);
                     pElapsedTime = elapsedTime;
@@ -401,6 +413,9 @@ public class GameStage extends MyStage {
                     isWaterPlaying = false;
                 }
             }
+
+            minViz.setY(tartaly.getY()+42 + (minSlider.getVisualPercent()*325)-minViz.getHeight());
+            maxViz.setY(tartaly.getY()+46 + (maxSlider.getVisualPercent()*325));
         }
 
     @Override

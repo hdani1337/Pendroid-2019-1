@@ -63,6 +63,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> CSAPATLOGO = new AssetDescriptor<Texture>("csapatlogo.png", Texture.class);
     public static final AssetDescriptor<Texture> GOMB_TEXTURE = new AssetDescriptor<Texture>("buttonOn.png", Texture.class);
     public static final AssetDescriptor<Texture> GOMBOFF_TEXTURE = new AssetDescriptor<Texture>("buttonOff.png", Texture.class);
+    public static final AssetDescriptor<Texture> MINVIZ = new AssetDescriptor<Texture>("minViz.png", Texture.class);
+    public static final AssetDescriptor<Texture> MAXVIZ = new AssetDescriptor<Texture>("maxViz.png", Texture.class);
 
     public static final AssetDescriptor<Sound> KACSA_SOUND = new AssetDescriptor<Sound>("kacsa.mp3", Sound.class);
     public static final AssetDescriptor<Music> VIZ_SOUND = new AssetDescriptor<Music>("water.mp3", Music.class);
@@ -112,6 +114,8 @@ public class Assets {
         manager.load(GOMB_TEXTURE);
         manager.load(GOMBOFF_TEXTURE);
         manager.load(MUTE_KACSA);
+        manager.load(MINVIZ);
+        manager.load(MAXVIZ);
 	}
 
     public static void afterLoaded() {

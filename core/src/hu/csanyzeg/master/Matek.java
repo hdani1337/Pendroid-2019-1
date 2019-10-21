@@ -124,7 +124,7 @@ public class Matek {
     public void setKimeno() {
         float sum =0; //csak egy void ami összegzi a nyílt csöveken átmenő vízmennyiséget
         for (int i = 0; i < pipe.size(); i++){
-            if (getVizmennyiseg() + 890 > getSzint(i)) getcso(i).setOpen(true);
+            if (getVizmennyiseg() + 889 > getSzint(i)) getcso(i).setOpen(true);
             else getcso(i).setOpen(false);
         }
         for (int i = 0; i < pipe.size(); i++) {

@@ -58,11 +58,7 @@ public class OptionsStage extends MyStage {
                 }
                 else{
                     if(kacsa.getX() >= muteOff.getX()+26) {
-                        if(kacsa.getX() < muteOff.getX() + muteOff.getWidth() / 2 + 50) {
-                            if (muteOff.getAlpha() != 1)
-                                muteOff.setAlpha(muteOff.getAlpha() + 0.075f);
-                        }
-                        else  muteOff.setAlpha(1);
+                        if (muteOff.getAlpha() != 1 && kacsa.getX() < muteOff.getX() + muteOff.getWidth()/2+50) muteOff.setAlpha(muteOff.getAlpha() + 0.075f);
                         kacsa.setX(getX()-20);
                     }
                     else {

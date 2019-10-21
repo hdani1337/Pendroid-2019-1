@@ -146,6 +146,14 @@ public class MenuStage extends MyStage {
             }
         };
 
+        logo.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(!globalMute) Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
+            }
+        });
+
         start.addListener(startListener);
         info.addListener(infoListener);
         options.addListener(optionsListener);
