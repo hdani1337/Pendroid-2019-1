@@ -29,6 +29,7 @@ public class ChoiceStage extends MyStage {
     ArrayList<MyLabel> csoLabels;
     byte csoNumbers;
     Slider csovekSzama;
+    MyLabel csovekSzamaText;
     MyButton start;
     public static float[] csovekMeretei;
     OneSpriteStaticActor speech;
@@ -65,6 +66,8 @@ public class ChoiceStage extends MyStage {
 
         csovekSzama = new Slider(2, 5, 1, false, Styles.getSliderStyle(0,0));
         csovekSzama.setValue(5);
+        csovekSzamaText = new MyLabel("Csövek száma: " + (int)csovekSzama.getVisualValue(),Styles.getLabelStyle());
+        csovekSzamaText.setColor(Color.BLACK);
 
         speech = new OneSpriteStaticActor(Assets.manager.get(Assets.SPEECH2_TEXTURE)){
             @Override
@@ -87,6 +90,7 @@ public class ChoiceStage extends MyStage {
         csovekSzama.setPosition(getViewport().getWorldWidth()/2-csovekSzama.getWidth()/2,getViewport().getWorldHeight()-550);
         speech.setPosition(getViewport().getWorldWidth()/2-speech.getWidth()/2 - 20,getViewport().getWorldHeight()/2-speech.getHeight());
         kacsa.setPosition(getViewport().getWorldWidth()-kacsa.getWidth()+130,speech.getY()-kacsa.getHeight() + 85);
+        csovekSzamaText.setPosition(getViewport().getWorldWidth()/2-csovekSzamaText.getWidth()/2,csovekSzama.getY()-55);
     }
 
     void addListeners() {
@@ -118,6 +122,7 @@ public class ChoiceStage extends MyStage {
         addActor(speech);
         addActor(start);
         addActor(csovekSzama);
+        addActor(csovekSzamaText);
         csoNumbers = 5;
         for (int i = 2; i < 5;i++)
         {
@@ -161,8 +166,10 @@ public class ChoiceStage extends MyStage {
         {
             csoActors.get(i).setPosition((getViewport().getWorldWidth()-(csoActors.get(0).getWidth()+25)*csoActors.size())/2+(csoActors.get(i).getWidth() + 25)*i,getViewport().getWorldHeight()-csoActors.get(i).getHeight()*1.5f);
             csoSliders.get(i).setPosition(csoActors.get(i).getX()+csoActors.get(i).getWidth()/2-csoSliders.get(i).getWidth()/2,csoActors.get(i).getY()-csoSliders.get(i).getHeight()-15);
-            csoLabels.get(i).setPosition(csoSliders.get(i).getX()+csoSliders.get(i).getWidth()/2-csoLabels.get(i).getWidth()/2,csoSliders.get(i).getY()-50);
             csoLabels.get(i).setText((int)csoSliders.get(i).getVisualValue() + "");
+            csoLabels.get(i).setPosition(csoSliders.get(i).getX()+csoSliders.get(i).getWidth()/2-csoLabels.get(i).getWidth()/2,csoSliders.get(i).getY()-50);
         }
+
+        csovekSzamaText.setText("Csövek száma: " + (int)csovekSzama.getVisualValue());
     }
 }
