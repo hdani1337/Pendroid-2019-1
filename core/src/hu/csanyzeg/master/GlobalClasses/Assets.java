@@ -66,6 +66,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> GOMBOFF_TEXTURE = new AssetDescriptor<Texture>("buttonOff.png", Texture.class);
     public static final AssetDescriptor<Texture> MINVIZ = new AssetDescriptor<Texture>("minViz.png", Texture.class);
     public static final AssetDescriptor<Texture> MAXVIZ = new AssetDescriptor<Texture>("maxViz.png", Texture.class);
+    public static final AssetDescriptor<Texture> GOMB_HATTER = new AssetDescriptor<Texture>("gombhatter1.png", Texture.class);
+    public static final AssetDescriptor<Texture> GOMB_HATTER2 = new AssetDescriptor<Texture>("gombhatter2.png", Texture.class);
 
     public static final AssetDescriptor<Sound> KACSA_SOUND = new AssetDescriptor<Sound>("kacsa.mp3", Sound.class);
     public static final AssetDescriptor<Music> VIZ_SOUND = new AssetDescriptor<Music>("water.mp3", Music.class);
@@ -118,6 +120,8 @@ public class Assets {
         manager.load(MUTE_KACSA);
         manager.load(MINVIZ);
         manager.load(MAXVIZ);
+        manager.load(GOMB_HATTER);
+        manager.load(GOMB_HATTER2);
 	}
 
     public static void afterLoaded() {

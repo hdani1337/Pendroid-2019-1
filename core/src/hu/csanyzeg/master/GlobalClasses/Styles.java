@@ -37,9 +37,9 @@ public class Styles {
     public static TextButton.TextButtonStyle getTextButtonStyle() {
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = Assets.manager.get(Assets.ALEGREYAREGULAR_FONT);
-        textButtonStyle.up = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.BLUE_TEXTURE)));
-        textButtonStyle.over = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.GREEN_TEXTURE)));
-        textButtonStyle.down = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.YELLOW_TEXTURE)));
+        textButtonStyle.fontColor = Color.WHITE;
+        textButtonStyle.up = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.GOMB_HATTER)));
+        textButtonStyle.down = new TextureRegionDrawable(new TextureRegion(Assets.manager.get(Assets.GOMB_HATTER2)));
         return textButtonStyle;
     }
 
