@@ -64,6 +64,7 @@ public class GameStage extends MyStage {
     Music waterSound = Assets.manager.get(Assets.VIZ_SOUND);
     OneSpriteStaticActor minViz;
     OneSpriteStaticActor maxViz;
+    OneSpriteStaticActor titanic;
     MyButton exit;
     MyButton pause;
     boolean isWaterPlaying = false;
@@ -108,6 +109,8 @@ public class GameStage extends MyStage {
         maxViz.setDebug(false);
         exit = new MyButton("Vissza a menübe",Styles.getTextButtonStyle());
         pause = new MyButton("Szimuláció megállítása",Styles.getTextButtonStyle());
+        titanic = new OneSpriteStaticActor(Assets.manager.get(Assets.TITANIC));
+        titanic.setDebug(false);
 
         exit.addListener(new ClickListener()
         {
@@ -161,6 +164,11 @@ public class GameStage extends MyStage {
 
         minViz.setX(tartaly.getX()+152);
         maxViz.setX(tartaly.getX()+152);
+
+        titanic.setSize(titanic.getWidth()/5,titanic.getHeight()/5);
+        titanic.setY(viz.getY()-20);
+        titanic.setX((float)(Math.random()*298 + tartaly.getX()+150));
+        titanic.setRotation(120);
 
         currentVizszint.setPosition(viewport.getWorldWidth()/2-currentVizszint.getWidth()/2+8,viz.getY() + tartaly.getHeight()/3.4f);
         currentVizszint.setAlignment(0);
@@ -236,13 +244,14 @@ public class GameStage extends MyStage {
     {
         addActor(background);
         tartaly.addToWorld();
+        addActor(minViz);
+        addActor(maxViz);
+        addActor(titanic);
         addActor(currentVizszint);
         addActor(kacsa);
         addActor(vizszint);
         addActor(viz);
         addActor(tartaly);
-        addActor(minViz);
-        addActor(maxViz);
         addActor(felhoNapos);
         addActor(felho);
         felho.setAlpha(0.5f);
@@ -260,7 +269,6 @@ public class GameStage extends MyStage {
         tartaly.setZIndex(1000);
         minSlider.setZIndex(1001);
         maxSlider.setZIndex(1001);
-        maxViz.setZIndex(1001);
         bemenoSlider.setZIndex(1001);
     }
 
