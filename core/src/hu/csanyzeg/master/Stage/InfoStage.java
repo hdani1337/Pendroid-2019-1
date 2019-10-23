@@ -1,5 +1,6 @@
 package hu.csanyzeg.master.Stage;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,6 +15,7 @@ import hu.csanyzeg.master.ParentClasses.Game.MyGame;
 import hu.csanyzeg.master.ParentClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.ParentClasses.UI.MyButton;
+import hu.csanyzeg.master.ParentClasses.UI.MyLabel;
 
 public class InfoStage extends MyStage {
     float speedX = 0.03f;
@@ -23,6 +25,7 @@ public class InfoStage extends MyStage {
     MyButton back;
     Viz viz;
     Vizszint vizszint;
+    MyLabel developers;
 
     public InfoStage(final Viewport viewport, Batch batch, final MyGame game) {
         super(viewport, batch, game);
@@ -49,6 +52,7 @@ public class InfoStage extends MyStage {
         back = new MyButton("Vissza a menübe",Styles.getTextButtonStyle());
         viz = new Viz();
         vizszint = new Vizszint();
+        developers = new MyLabel("Készítették\nFelső Péter (felsopeti)\nHorváth Dániel (hdani1337)\nKutai Bence (KutaYeet)\nMiklós Zoltán (zltmmikls10)\n\nFelkészítő tanár\nTüske Balázs (tuskeb)\n\n2019",Styles.getLabelStyle());
     }
 
     void setPositions(Viewport viewport)
@@ -64,6 +68,9 @@ public class InfoStage extends MyStage {
         vizszint.setSize(viz.getWidth(),20);
         vizszint.setX(viz.getX());
         vizszint.setY(viz.getY()+viz.getHeight()+20);
+        developers.setFontScale(0.8f);
+        developers.setY(back.getY()-64);
+        developers.setX(15);
     }
 
     void addActors()
@@ -73,6 +80,7 @@ public class InfoStage extends MyStage {
         addActor(viz);
         addActor(vizszint);
         addActor(speech);
+        addActor(developers);
         addActor(back);
     }
 

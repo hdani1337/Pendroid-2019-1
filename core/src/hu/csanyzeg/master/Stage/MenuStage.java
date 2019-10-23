@@ -35,10 +35,27 @@ public class MenuStage extends MyStage {
     OneSpriteStaticActor pendroid;
     OneSpriteStaticActor csapat;
 
+    /*
+    Plusz funkciók:
+        - Beállítások menüpontban némítható a szoftver
+        - A vízcseppek a Box2D keretrendszer segítségével vannak animálva
+        - A vízcseppek egy felhőből esnek
+        - A menüben a kiskacsa sípol ha rákattintunk
+        - A szimulációban csúszkákkal állítható a minimum és maximum vízszint
+        - A tartály vízén békésen úszkál egy aranyos kiskacsa
+        - A tartály alján nyugszik a Titanic
+        - A csövek számának és méreteinek bekérésénél a kiskacsa segít, hogy mit csináljunk
+        - Meglehet állítni illetve folytatni a szimulációt
+        - Ha a kiskacsa nekimegy a képernyő vagy a tartály szélének akkor is sípol
+        - Ha folyik be és/vagy ki víz, akkor vízcsobogás hangeffekt játszódik le
+        - Minél nagyobb a bemenő vízmennyiség, annál sötétebb a felhő
+     */
+
 
     public MenuStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
         assignment();
+        cimerek();
         addListeners();
         setPositions(viewport);
         addActors();
@@ -70,11 +87,13 @@ public class MenuStage extends MyStage {
                     if(!globalMute)Assets.manager.get(Assets.KACSA_SOUND).play(0.7f);
                     speedX *= -1;
                 }
-
-                setDebug(false);
             }
         };
+        logo.setDebug(false);
+    }
 
+    void cimerek()
+    {
         csany = new OneSpriteStaticActor(Assets.manager.get(Assets.CSANY));
         pendroid = new OneSpriteStaticActor(Assets.manager.get(Assets.PENDROID));
         csapat = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAPATLOGO));

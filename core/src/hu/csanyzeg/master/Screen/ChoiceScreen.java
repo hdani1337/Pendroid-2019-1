@@ -15,7 +15,6 @@ public class ChoiceScreen extends MyScreen {
     public ChoiceScreen(MyGame game) {
         super(game);
         choiceStage = new ChoiceStage(new FitViewport(720,keparanySzelesvaszonra()),spriteBatch,game);
-        Gdx.input.setInputProcessor(choiceStage);
     }
 
     @Override

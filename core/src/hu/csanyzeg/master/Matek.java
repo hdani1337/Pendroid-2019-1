@@ -15,6 +15,7 @@ public class Matek {
 
     float min = 890;
     float max = 910;
+    //Kezdőértékek
 
     public Matek(float vizbe, float[] csok) {
         beviz = vizbe;
@@ -72,22 +73,10 @@ public class Matek {
         return beviz; //csak egy void ami visszaadja a nyílt csöveken átmenő vízmennyiséget
     }
 
-    public float getLegkisebb()
-    {
-        float max = getLegnagyobb();
-        for (int i = 0; i < getPipe().size(); i++)
-        {
-            if(getPipe().get(i).getKi() < max) max = getPipe().get(i).getKi();
-        }
-        return max;
-    }
-
     public float getAtlag()
     {
         return getOsszesKimeno()/pipe.size();
     }
-
-    public float getDifi() {return difi;}
 
     public float getLegnagyobb()
     {
@@ -148,14 +137,6 @@ public class Matek {
         while (sum < max-min){
             szintek.set(index++, sum + min);
             sum += difi;
-        }
-    }
-
-    public void szintekNull()
-    {//szintek nullázása
-        for (int i = 0; i < szintek.size();i++)
-        {
-            szintek.set(i,0f);
         }
     }
 

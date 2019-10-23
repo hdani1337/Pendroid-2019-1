@@ -3,8 +3,8 @@ package hu.csanyzeg.master;
 public class cso {
 
 
-    int key = 0;
-    float ki = 0;
+    int key;
+    float ki;
     boolean isOpen = false;
 
     public cso(float asd, int k) {
@@ -15,10 +15,6 @@ public class cso {
 
     public Float getKi() {
         return this.ki;
-    }
-
-    public int getKey() {
-        return key;
     }
 
     public String getKistring() {
@@ -43,12 +39,8 @@ public class cso {
                 //System.out.println(getKey() + "-as cso záródott");
             }
         }
-
-
     }
 
     public void main(String[] args) {
-      //  System.out.println("szoszi");
-        //System.out.printf("Cső létrejött és %s vizet enged át%n", getKistring());
     }
 }

@@ -13,7 +13,7 @@ public class Styles {
         Label.LabelStyle style;
         style = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle();
         style.font = Assets.manager.get(Assets.ALEGREYAREGULAR_FONT);
-        style.fontColor = Color.YELLOW;
+        style.fontColor = Color.WHITE;
         return style;
     }
 

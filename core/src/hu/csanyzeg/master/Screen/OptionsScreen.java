@@ -15,6 +15,11 @@ public class OptionsScreen extends MyScreen {
     public OptionsScreen(MyGame game) {
         super(game);
         optionsStage = new OptionsStage(new FitViewport(720,keparanySzelesvaszonra()),spriteBatch,game);
+    }
+
+    @Override
+    public void show() {
+        super.show();
         Gdx.input.setInputProcessor(optionsStage);
     }
 

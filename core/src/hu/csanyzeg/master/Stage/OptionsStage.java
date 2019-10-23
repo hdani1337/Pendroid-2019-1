@@ -42,6 +42,13 @@ public class OptionsStage extends MyStage {
         back = new MyButton("Vissza a menübe",Styles.getTextButtonStyle());
         mute = new Gomb(Assets.manager.get(Assets.GOMB_TEXTURE));
         muteOff = new Gomb(Assets.manager.get(Assets.GOMBOFF_TEXTURE));
+        kacsaStuff();
+        mute.setAlpha(1);
+        muteOff.setAlpha(0);
+    }
+
+    void kacsaStuff()
+    {
         kacsa = new OneSpriteStaticActor(Assets.manager.get(Assets.MUTE_KACSA)){
             @Override
             public void act(float delta) {
@@ -69,9 +76,6 @@ public class OptionsStage extends MyStage {
             }
         };
         kacsa.setDebug(false);
-
-        mute.setAlpha(1);
-        muteOff.setAlpha(0);
     }
 
     void setPositions(Viewport viewport)

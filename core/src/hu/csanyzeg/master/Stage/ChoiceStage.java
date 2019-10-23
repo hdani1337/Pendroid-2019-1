@@ -49,7 +49,7 @@ public class ChoiceStage extends MyStage {
         start = new MyButton("A játék indítása",Styles.getTextButtonStyle());
 
         csoActors = new ArrayList<CsoActor>();
-        for (int i = 0; i < 5; i++) csoActors.add(new CsoActor());//Maximum 5 cső választható, és minimum kettő legyen (egynél nem lenne értelme a programnak, mivel tartaná a vízszintet, hatnál több cső pedig nem fér ki a képernyőre)
+        for (int i = 0; i < 5; i++) csoActors.add(new CsoActor());//Maximum 5 cső választható, és minimum kettő legyen (egynél nem lenne értelme a programnak, mivel tartaná a vízszintet, ötnél több cső pedig nem fér ki a képernyőre)
 
         csoSliders = new ArrayList<Slider>();
         for (int i = 0; i < 5; i++) {
@@ -148,6 +148,7 @@ public class ChoiceStage extends MyStage {
     @Override
     public void act(float delta) {
         super.act(delta);
+        //Mivel itt nincs sok minden, ezért minden mehet a fő threadre
         for (int i = 2; i < 5;i++)
         {
             if(csovekSzama.getVisualValue() >= i+1) {

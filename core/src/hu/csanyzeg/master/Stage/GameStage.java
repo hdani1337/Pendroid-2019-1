@@ -75,10 +75,12 @@ public class GameStage extends MyStage {
         assignment(viewport);
         if(matek.getBemeno() < matek.getOsszesKimeno()) {
             setSizesAndPositions(viewport);
+            setDebugs();
+            addListeners();
             sliders();
             addActors();
         }
-        else error();//Ha több a befolyó vízmennyiség, mint a kifolyó
+        else error();//Ha több a befolyó vízmennyiség, mint a kifolyó (ami lehetetlen hogy megtörténjen, de mindenre felkell készülni :D)
     }
 
     void assignment(Viewport viewport)
@@ -105,13 +107,25 @@ public class GameStage extends MyStage {
         kacsa = new Kacsa();
         minViz = new OneSpriteStaticActor(Assets.manager.get(Assets.MINVIZ));
         maxViz = new OneSpriteStaticActor(Assets.manager.get(Assets.MAXVIZ));
-        minViz.setDebug(false);
-        maxViz.setDebug(false);
         exit = new MyButton("Vissza a menübe",Styles.getTextButtonStyle());
         pause = new MyButton("Szimuláció megállítása",Styles.getTextButtonStyle());
         titanic = new OneSpriteStaticActor(Assets.manager.get(Assets.TITANIC));
-        titanic.setDebug(false);
 
+
+        for (int i = 0; i < matek.getPipe().size();i++) {
+            csovek.add(new CsoActor());
+        }
+    }
+
+    void setDebugs()
+    {
+        minViz.setDebug(false);
+        maxViz.setDebug(false);
+        titanic.setDebug(false);
+    }
+
+    void addListeners()
+    {
         exit.addListener(new ClickListener()
         {
             @Override
@@ -141,10 +155,6 @@ public class GameStage extends MyStage {
                 }
             }
         });
-
-        for (int i = 0; i < matek.getPipe().size();i++) {
-            csovek.add(new CsoActor());
-        }
     }
 
     void setSizesAndPositions(Viewport viewport)
@@ -182,6 +192,7 @@ public class GameStage extends MyStage {
         currentBemenoValue.setY(viewport.getWorldHeight()-currentBemenoValue.getHeight()-165);
         currentBemenoValue.setAlignment(0);
         currentBemenoValue.setColor(Color.FIREBRICK);
+
         exit.setPosition(viewport.getWorldWidth()/2-exit.getWidth()/2,50);
         pause.setPosition(viewport.getWorldWidth()/2-pause.getWidth()/2,75+exit.getHeight());
     }
@@ -243,7 +254,7 @@ public class GameStage extends MyStage {
     void addActors()
     {
         addActor(background);
-        tartaly.addToWorld();
+        tartaly.addToWorld();//Magához a világhoz csak a tartályt és a vízcseppeket adjuk, minden más csak a stage-re megy
         addActor(minViz);
         addActor(maxViz);
         addActor(titanic);
@@ -274,6 +285,7 @@ public class GameStage extends MyStage {
 
     public static float tartalyKezdeteKacsa;
     public static float tartalyVegeKacsa;
+    //A kacsa elhelyezéséhez kellenek ezek az értékek
 
     void addCsovek()
     {
@@ -323,11 +335,6 @@ public class GameStage extends MyStage {
         addActor(errorActor);
         addActor(error);
         addActor(back);
-
-    }
-
-    public World getWorld() {
-        return world;
     }
 
     float pElapsedTime =0;
@@ -335,7 +342,7 @@ public class GameStage extends MyStage {
 
     void waterThread()
     {
-        if (MyGdxGame.getMultitasking()) {//Ha mobilon megy, akkor menjen külön szálra
+        if (MyGdxGame.getMultitasking()) {//Ha mobilon megy, akkor menjen külön szálra (hogy minél több erőforrás jusson a Box2D-nek)
             new Thread(new Runnable() {
                 public void run() {
                     vizCseppek();
@@ -407,7 +414,7 @@ public class GameStage extends MyStage {
 
     void updateThread()
     {
-        if (MyGdxGame.getMultitasking()) {//Ha mobilon megy, akkor menjen külön szálra
+        if (MyGdxGame.getMultitasking()) {//Ha mobilon megy, akkor menjen külön szálra (hogy minél több erőforrás jusson a Box2D-nek)
             new Thread(new Runnable() {
                 public void run() {
                     update();
