@@ -52,7 +52,11 @@ public class ChoiceStage extends MyStage {
         for (int i = 0; i < 5; i++) csoActors.add(new CsoActor());//Maximum 5 cső választható, és minimum kettő legyen (egynél nem lenne értelme a programnak, mivel tartaná a vízszintet, ötnél több cső pedig nem fér ki a képernyőre)
 
         csoSliders = new ArrayList<Slider>();
-        for (int i = 0; i < 5; i++) {
+
+        csoSliders.add(new Slider(2, 50, 1, true, Styles.getSliderStyle(1, 1)));
+        csoSliders.get(0).setHeight(250);//Ha csak egy cső van, akkor az minimum kettő legyen vagy nem lesz értelme a programnak
+
+        for (int i = 1; i < 5; i++) {
             csoSliders.add(new Slider(1, 50, 1, true, Styles.getSliderStyle(1, 1)));
             csoSliders.get(i).setHeight(250);
         }
@@ -64,7 +68,7 @@ public class ChoiceStage extends MyStage {
             csoLabels.get(i).setColor(Color.BLACK);
         }
 
-        csovekSzama = new Slider(2, 5, 1, false, Styles.getSliderStyle(0,0));
+        csovekSzama = new Slider(1, 5, 1, false, Styles.getSliderStyle(0,0));
         csovekSzama.setValue(5);
         csovekSzamaText = new MyLabel("Csövek száma: " + (int)csovekSzama.getVisualValue(),Styles.getLabelStyle());
         csovekSzamaText.setColor(Color.BLACK);
@@ -113,18 +117,15 @@ public class ChoiceStage extends MyStage {
     {
         addActor(background);
         addActor(csoActors.get(0));
-        addActor(csoActors.get(1));
         addActor(csoSliders.get(0));
-        addActor(csoSliders.get(1));
         addActor(csoLabels.get(0));
-        addActor(csoLabels.get(1));
         addActor(kacsa);
         addActor(speech);
         addActor(start);
         addActor(csovekSzama);
         addActor(csovekSzamaText);
         csoNumbers = 5;
-        for (int i = 2; i < 5;i++)
+        for (int i = 1; i < 5;i++)
         {
             if(csovekSzama.getVisualValue() <= i) {
                 addActor(csoActors.get(i));
@@ -149,7 +150,7 @@ public class ChoiceStage extends MyStage {
     public void act(float delta) {
         super.act(delta);
         //Mivel itt nincs sok minden, ezért minden mehet a fő threadre
-        for (int i = 2; i < 5;i++)
+        for (int i = 1; i < 5;i++)
         {
             if(csovekSzama.getVisualValue() >= i+1) {
                 addActor(csoActors.get(i));

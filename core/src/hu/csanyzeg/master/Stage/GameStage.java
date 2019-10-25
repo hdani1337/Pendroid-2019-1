@@ -73,14 +73,11 @@ public class GameStage extends MyStage {
     public GameStage(Viewport viewport, Batch batch, MyGame game) {
         super(viewport, batch, game);
         assignment(viewport);
-        if(matek.getBemeno() < matek.getOsszesKimeno()) {
-            setSizesAndPositions(viewport);
-            setDebugs();
-            addListeners();
-            sliders();
-            addActors();
-        }
-        else error();//Ha több a befolyó vízmennyiség, mint a kifolyó (ami lehetetlen hogy megtörténjen, de mindenre felkell készülni :D)
+        setSizesAndPositions(viewport);
+        setDebugs();
+        addListeners();
+        sliders();
+        addActors();
     }
 
     void assignment(Viewport viewport)
@@ -88,7 +85,6 @@ public class GameStage extends MyStage {
         world = new World(new Vector2(0,-900000000), false);
         loader = new WorldBodyEditorLoader(Gdx.files.internal("fizika"));
         matek = new Matek(0,ChoiceStage.csovekMeretei);
-        matek.setBemeno((int)matek.getAtlag());
         matek.szintfeltoltes();
         vizszint = new Vizszint();
         currentVizszint = new MyLabel("Jelenlegi vízszint: 0.000000 m" , Styles.getLabelStyle());
@@ -200,7 +196,8 @@ public class GameStage extends MyStage {
     void sliders()
     {
         bemenoSlider = new Slider(0, matek.getOsszesKimeno()-1, 1, false, Styles.getSliderStyle(0,0));
-        bemenoSlider.setValue((int)(matek.getOsszesKimeno())/2);
+        bemenoSlider.setValue((int)bemenoSlider.getMaxValue()/2);
+        matek.setBemeno(bemenoSlider.getVisualValue());
         bemenoSlider.setSize(400,50);
         bemenoSlider.setPosition(getViewport().getWorldWidth()/2-bemenoSlider.getWidth()/2,getViewport().getWorldHeight()-160);
 
@@ -307,34 +304,6 @@ public class GameStage extends MyStage {
             addActor(csovek.get(i));
             addActor(csovekText.get(i));
         }
-    }
-
-    void error()
-    {
-        addActor(background);
-
-        OneSpriteStaticActor errorActor = new OneSpriteStaticActor(Assets.manager.get(Assets.ERROR_TEXTURE));
-        MyButton back = new MyButton("Vissza a menübe", Styles.getTextButtonStyle());
-
-        error.setPosition(getViewport().getWorldWidth()/2-error.getWidth()/2,getViewport().getWorldHeight()/2-error.getHeight()/2);
-        error.setColor(Color.RED);
-
-        errorActor.setPosition(getViewport().getWorldWidth()/2-errorActor.getWidth()/2,error.getY()+error.getHeight()+15);
-        errorActor.setDebug(false);
-
-        back.setPosition(getViewport().getWorldWidth()/2-back.getWidth()/2,35);
-        back.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                game.setScreenBackByStackPop();
-            }
-        });
-
-        addActor(errorActor);
-        addActor(error);
-        addActor(back);
     }
 
     float pElapsedTime =0;
