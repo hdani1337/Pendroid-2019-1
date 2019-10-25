@@ -2,7 +2,6 @@ package hu.csanyzeg.master;
 
 import java.util.ArrayList;
 
-
 public class Matek {
 
     float beviz;
@@ -25,6 +24,7 @@ public class Matek {
             cso asd = new cso(a,co);
             pipe.add(asd);
         }
+        bubbleSorting(pipe);
         setDifi();
     }
 
@@ -73,21 +73,6 @@ public class Matek {
         return beviz; //csak egy void ami visszaadja a nyílt csöveken átmenő vízmennyiséget
     }
 
-    public float getAtlag()
-    {
-        return getOsszesKimeno()/pipe.size();
-    }
-
-    public float getLegnagyobb()
-    {
-        float min = 0;
-        for (int i = 0; i < getPipe().size(); i++)
-        {
-            if(getPipe().get(i).getKi() > min) min = getPipe().get(i).getKi();
-        }
-        return min;
-    }
-
     public void setMin(float value)
     {
         min = value * 100;
@@ -102,19 +87,33 @@ public class Matek {
     {
         time+=deltaTime;
         vizmennyiseg += (deltaTime * beviz); //hozzáadjuk az eltelt idő alatt befolyt vizet
-        /*if (beviz > getLegkisebb()) getcso(0).setOpen(true); //ha több víz folyik be, mint amennyit a legkisebb csap elbír, akkor nyíljon ki az első, mert ha kevesebb víz folyik be mint a legkisebb csap, akkor lemegy 8.9 alá
-        if (getVizmennyiseg()> getSzint(1)) getcso(1).setOpen(true);*/
         setKimeno();
         vizmennyiseg += -1*(deltaTime*kimeno); // kivonjuk az eltelt idő alatt kifolyt vizet
-        // Fontos hogy a vízmennyiség nem mehet 890 m3 alá, de 910m3 fölé sem! tehát van egy kellemes 20m3-nyi területünk floatban
 
+    }
+
+    public void bubbleSorting(ArrayList<cso> array)
+    {//Sorbarendezi a csöveket buborékrendezés módszerrel
+        for (int i = array.size() - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (array.get(i).getKi() < array.get(j).getKi())
+                {
+                    cso temp = array.get(i);
+                    array.set(i,array.get(j));
+                    array.set(j,temp);
+                }
+
+            }
+        }
     }
 
     public void setKimeno() {
         float sum =0; //csak egy void ami összegzi a nyílt csöveken átmenő vízmennyiséget
         for (int i = 0; i < pipe.size(); i++){
             if (getVizmennyiseg() + 889 > getSzint(i)) getcso(i).setOpen(true);
-            else getcso(i).setOpen(false);
+            else if (getVizmennyiseg() + 889 < ((getSzint(i)-min)*0.15)+min) getcso(i).setOpen(false);
         }
         for (int i = 0; i < pipe.size(); i++) {
             if (getcso(i).isOpen()) sum += getcso(i).getKi();
@@ -123,36 +122,21 @@ public class Matek {
     }
 
     public void szintfeltoltes(){//ez fut le először, feltölti a szint tömböt
-        float sum = 0;
-        while (sum < max-min){
-            szintek.add(sum + min);
-            sum += difi;
-            //itt a kettőt megcseréltem, mivel a 0-t is belekell rakni, mert ott is kikell nyitni már egy csapot
+        for (int i = 1; i <= getPipe().size();i++)
+        {
+            szintek.add(((max-min)/getPipe().size())*(i-0.2f)+ min);
         }
     }
 
     public void szintfeltoltesSokadszorra(){//ez felülírja a szint tömbben lévő értékeket
-        float sum = 0;
-        int index = 0;
-        while (sum < max-min){
-            szintek.set(index++, sum + min);
-            sum += difi;
+        for (int i = 1; i <= getPipe().size();i++)
+        {
+            szintek.set(i-1,((max-min)/getPipe().size())*(i-0.2f)+ min);
         }
     }
 
     public void setBemeno(float vizbe)
     {
         beviz = vizbe;
-    }
-
-    public static void main(String[] args) {
-        float[] csovek = {1,2,4,8};
-        Matek m = new  Matek(2, csovek);
-        System.out.println(m.getVizmennyiseg());
-        for(int i = 0; i< 200; i++){
-            m.step(0.1f);
-            System.out.println(m.getVizmennyiseg());
-        }
-        System.out.println("asd");
     }
 }
