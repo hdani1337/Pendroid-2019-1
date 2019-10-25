@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-import hu.csanyzeg.master.GlobalClasses.Styles;
 import hu.csanyzeg.master.ParentClasses.Game.MyGame;
 import hu.csanyzeg.master.ParentClasses.Scene2D.MyScreen;
 
 import hu.csanyzeg.master.GlobalClasses.Assets;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
-import hu.csanyzeg.master.ParentClasses.UI.MyLabel;
 
 
 public class LoadingScreen extends MyScreen {

@@ -2,10 +2,8 @@ package hu.csanyzeg.master.Stage;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -49,7 +47,7 @@ public class ChoiceStage extends MyStage {
         start = new MyButton("A játék indítása",Styles.getTextButtonStyle());
 
         csoActors = new ArrayList<CsoActor>();
-        for (int i = 0; i < 5; i++) csoActors.add(new CsoActor());//Maximum 5 cső választható, és minimum kettő legyen (egynél nem lenne értelme a programnak, mivel tartaná a vízszintet, ötnél több cső pedig nem fér ki a képernyőre)
+        for (int i = 0; i < 5; i++) csoActors.add(new CsoActor());//Maximum 5 cső választható, és minimum egy (ötnél több cső nem fér ki a képernyőre)
 
         csoSliders = new ArrayList<Slider>();
 
@@ -60,6 +58,8 @@ public class ChoiceStage extends MyStage {
             csoSliders.add(new Slider(1, 50, 1, true, Styles.getSliderStyle(1, 1)));
             csoSliders.get(i).setHeight(250);
         }
+
+        //Azért lehetnek maximum 50m^3/h nagyságúak a csövek, mert akadozna a szimuláció a sok vízcsepp miatt
 
         csoLabels = new ArrayList<MyLabel>();
         for (int i = 0; i < 5; i++)

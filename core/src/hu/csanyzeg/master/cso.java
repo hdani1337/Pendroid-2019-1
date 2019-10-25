@@ -2,7 +2,6 @@ package hu.csanyzeg.master;
 
 public class cso {
 
-
     int key;
     float ki;
     boolean isOpen = false;
@@ -10,7 +9,6 @@ public class cso {
     public cso(float asd, int k) {
         ki = asd;
         key = k;
-        main(new String[]{"none"});
     }
 
     public Float getKi() {
@@ -30,17 +28,12 @@ public class cso {
         if(open){
             if (!isOpen){
                 isOpen = true;
-                //System.out.println(getKey() + "-as cso kinyílt");
             }
         }
         else {
             if(isOpen){
                 isOpen = false;
-                //System.out.println(getKey() + "-as cso záródott");
             }
         }
-    }
-
-    public void main(String[] args) {
     }
 }

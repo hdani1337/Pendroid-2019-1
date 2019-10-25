@@ -16,7 +16,6 @@ import hu.csanyzeg.master.ParentClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.ParentClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.ParentClasses.UI.MyButton;
 import hu.csanyzeg.master.Screen.ChoiceScreen;
-import hu.csanyzeg.master.Screen.GameScreen;
 import hu.csanyzeg.master.Screen.InfoScreen;
 import hu.csanyzeg.master.Screen.OptionsScreen;
 
