@@ -73,13 +73,15 @@ public class MenuStage extends MyStage {
             @Override
             public void act(float delta) {
                 super.act(delta);
+                if (logo.getRotation() > 9) logo.setRotation(9);
+                else if (logo.getRotation() < -9) logo.setRotation(-9);
+
                 setRotation(getRotation() + delta * speed);
+                setX(getX()-speedX);
 
                 if(getRotation() >= 9 || getRotation() <= -9){
                     speed *= -1;
                 }
-
-                setX(getX()-speedX);
 
                 if(getX()+getWidth() -50 >= getViewport().getWorldWidth() || getX() <= -40)
                 {
